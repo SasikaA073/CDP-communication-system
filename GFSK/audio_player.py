@@ -6,11 +6,20 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.10.7.0
+# GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
-from PyQt5 import Qt
-from gnuradio import qtgui
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import gr
@@ -25,6 +34,8 @@ from gnuradio import eng_notation
 
 
 
+from gnuradio import qtgui
+
 class audio_player(gr.top_block, Qt.QWidget):
 
     def __init__(self):
@@ -34,8 +45,8 @@ class audio_player(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -55,8 +66,8 @@ class audio_player(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Variables
@@ -66,8 +77,7 @@ class audio_player(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/thisara/Documents/GFSK/output.wav', True)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/sasika/Documents/Com_design_project/CDP-communication-system/GFSK/output.wav', True)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
 
 

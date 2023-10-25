@@ -165,7 +165,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/GFSK/output.txt
+    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/audio_file_transfer/message1rec.txt
     type: byte
     unbuffered: 'True'
     vlen: '1'
@@ -201,12 +201,12 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/GFSK/message.txt
+    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/audio_file_transfer/message.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'True'
+    repeat: 'False'
     type: byte
     vlen: '1'
   states:

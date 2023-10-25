@@ -30,7 +30,6 @@ import sip
 from gnuradio import analog
 import math
 from gnuradio import blocks
-import pmt
 from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
@@ -43,6 +42,7 @@ from gnuradio import eng_notation
 from gnuradio import soapy
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
+import pkt_fsk_xmt_epy_block_0 as epy_block_0  # embedded python block
 
 
 
@@ -234,6 +234,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccf(decim, firdes.low_pass(1.0,samp_rate,3000,400), center, samp_rate)
+        self.epy_block_0 = epy_block_0.blk(FileName=InFile, Pkt_len=75)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_ff(
             digital.TED_EARLY_LATE,
             sps,
@@ -255,18 +256,14 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.blocks_vco_c_0 = blocks.vco_c(samp_rate, 2*math.pi*vco_max, 1.0)
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_char*1, samp_rate,True)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
-        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 12, "packet_len")
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, repeat)
         self.blocks_repack_bits_bb_1_0_0 = blocks.repack_bits_bb(1, 8, "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_1_0 = blocks.repack_bits_bb(8, 1, '', False, gr.GR_MSB_FIRST)
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(reverse)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(inp_amp)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/sasika/Documents/Com_design_project/CDP-communication-system/FSK/message.txt', True, 0, 0)
-        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/sasika/Documents/Com_design_project/CDP-communication-system/FSK/output.txt', False)
-        self.blocks_file_sink_0.set_unbuffered(True)
+        self.blocks_file_sink_0_1_0 = blocks.file_sink(gr.sizeof_char*1, '/home/sasika/Documents/Com_design_project/CDP-communication-system/FSK/output.tmp', False)
+        self.blocks_file_sink_0_1_0.set_unbuffered(True)
         self.blocks_add_const_vxx_0 = blocks.add_const_ff(vco_offset)
         self.analog_simple_squelch_cc_0 = analog.simple_squelch_cc(sq_lvl, 1)
         self.analog_quadrature_demod_cf_0 = analog.quadrature_demod_cf(samp_rate/(2*math.pi*fsk_deviation))
@@ -281,15 +278,12 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.blocks_multiply_const_vxx_0_0, 0))
         self.connect((self.analog_simple_squelch_cc_0, 0), (self.analog_quadrature_demod_cf_0, 0))
         self.connect((self.blocks_add_const_vxx_0, 0), (self.blocks_vco_c_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_add_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.analog_agc_xx_0, 0))
         self.connect((self.blocks_repack_bits_bb_1_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.blocks_repack_bits_bb_1_0_0, 0), (self.digital_crc32_bb_0_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_0, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_repack_bits_bb_1_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
         self.connect((self.blocks_throttle_1, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_throttle_1, 0), (self.soapy_bladerf_sink_0, 0))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.blocks_multiply_const_vxx_0, 0))
@@ -298,9 +292,10 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_repack_bits_bb_1_0_0, 0))
         self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.digital_crc32_bb_0, 0), (self.digital_protocol_formatter_bb_0, 0))
-        self.connect((self.digital_crc32_bb_0_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.digital_crc32_bb_0_0, 0), (self.blocks_file_sink_0_1_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.digital_symbol_sync_xx_0, 0), (self.digital_binary_slicer_fb_0, 0))
+        self.connect((self.epy_block_0, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.analog_simple_squelch_cc_0, 0))
         self.connect((self.soapy_bladerf_source_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
 
@@ -318,6 +313,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
 
     def set_InFile(self, InFile):
         self.InFile = InFile
+        self.epy_block_0.FileName = self.InFile
 
     def get_space(self):
         return self.space
@@ -368,7 +364,6 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.set_repeat((int)(self.samp_rate/self.baud))
         self.analog_quadrature_demod_cf_0.set_gain(self.samp_rate/(2*math.pi*self.fsk_deviation))
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.blocks_throttle_1.set_sample_rate(self.samp_rate)
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1.0,self.samp_rate,3000,400))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
