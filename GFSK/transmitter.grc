@@ -165,7 +165,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/thisara/Documents/GFSK/output.wav
+    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/GFSK/output.txt
     type: byte
     unbuffered: 'True'
     vlen: '1'
@@ -201,12 +201,12 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/thisara/Downloads/file_example_WAV_1MG.wav
+    file: /home/sasika/Documents/Com_design_project/CDP-communication-system/GFSK/message.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'False'
+    repeat: 'True'
     type: byte
     vlen: '1'
   states:
@@ -521,7 +521,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 244.0]
+    coordinate: [1184, 448.0]
     rotation: 0
     state: true
 - name: digital_protocol_formatter_bb_0
@@ -800,7 +800,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 444.0]
+    coordinate: [872, 448.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_1
@@ -961,4 +961,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
