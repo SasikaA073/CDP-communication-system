@@ -153,7 +153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 156.0]
+    coordinate: [640, 152.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -194,15 +194,13 @@ blocks:
     coordinate: [760, 532.0]
     rotation: 0
     state: true
-- name: blocks_throttle2_0
-  id: blocks_throttle2
+- name: blocks_throttle_0
+  id: blocks_throttle
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     ignoretag: 'True'
-    limit: auto
-    maximum: '0.1'
     maxoutbuf: '0'
     minoutbuf: '0'
     samples_per_second: samp_rate
@@ -212,7 +210,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 172.0]
+    coordinate: [456, 168.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_0_0
@@ -841,7 +839,6 @@ blocks:
     address: tcp://127.0.0.1:49201
     affinity: ''
     alias: ''
-    bind: 'False'
     comment: USRP sample rate = 768kHz
     hwm: '-1'
     key: ''
@@ -862,7 +859,7 @@ blocks:
 connections:
 - [analog_agc_xx_0, '0', digital_fll_band_edge_cc_0, '0']
 - [blocks_repack_bits_bb_1_0, '0', digital_crc32_bb_0_0, '0']
-- [blocks_throttle2_0, '0', analog_agc_xx_0, '0']
+- [blocks_throttle_0, '0', analog_agc_xx_0, '0']
 - [blocks_uchar_to_float_0_0, '0', qtgui_time_sink_x_0_2, '0']
 - [blocks_uchar_to_float_0_0_0, '0', qtgui_time_sink_x_0_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
@@ -877,11 +874,10 @@ connections:
 - [digital_map_bb_0, '0', blocks_uchar_to_float_0_0, '0']
 - [digital_map_bb_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [digital_symbol_sync_xx_0, '0', digital_costas_loop_cc_0, '0']
-- [rational_resampler_xxx_0, '0', blocks_throttle2_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_throttle_0, '0']
 - [virtual_source_0, '0', digital_symbol_sync_xx_0, '0']
 - [virtual_source_2, '0', digital_map_bb_0, '0']
 - [zeromq_sub_source_0, '0', rational_resampler_xxx_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.6.0

@@ -6,7 +6,7 @@ using software defined radios
 - Communications must be secure and reliable
 
 - Transmitter Design 
-    - [x] Send key strokes
+    - [ ] Send key strokes
     - [ ] Read Numlock/Capslock/Scrolllock state
     - [ ] Encoding
     - [ ] Security Implementation
@@ -15,9 +15,9 @@ using software defined radios
     - [ ] Modulation 
 
 - Receiver Design 
-    - [x] Reliability Enhancement
-    - [x] Demodulation
-    - [x] Decoding
+    - [ ] Reliability Enhancement
+    - [ ] Demodulation
+    - [ ] Decoding
 
 - Communications to occur in the 2.4 GHz ISM band
     Adhere to maximum power limitations
