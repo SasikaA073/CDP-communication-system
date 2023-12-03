@@ -6,31 +6,42 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.10.7.0
+# GNU Radio version: 3.10.1.1
 
 from packaging.version import Version as StrictVersion
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import soapy
 from gnuradio import vocoder
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import sip
 
 
+
+from gnuradio import qtgui
 
 class transmitter(gr.top_block, Qt.QWidget):
 
@@ -41,8 +52,8 @@ class transmitter(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -62,8 +73,8 @@ class transmitter(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Parameters
@@ -84,35 +95,8 @@ class transmitter(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
         self.vocoder_cvsd_encode_fb_0 = vocoder.cvsd_encode_fb(1,0.5)
         self.vocoder_cvsd_decode_bf_0 = vocoder.cvsd_decode_bf(1,0.5)
-        self.soapy_bladerf_source_0 = None
-        dev = 'driver=bladerf'
-        stream_args = ''
-        tune_args = ['']
-        settings = ['']
-
-        self.soapy_bladerf_source_0 = soapy.source(dev, "fc32", 1, '',
-                                  stream_args, tune_args, settings)
-        self.soapy_bladerf_source_0.set_sample_rate(0, samp_rate)
-        self.soapy_bladerf_source_0.set_bandwidth(0, 500e3)
-        self.soapy_bladerf_source_0.set_frequency(0, trans_freq)
-        self.soapy_bladerf_source_0.set_frequency_correction(0, 0)
-        self.soapy_bladerf_source_0.set_gain(0, min(max(60, -1.0), 60.0))
-        self.soapy_bladerf_sink_0 = None
-        dev = 'driver=bladerf'
-        stream_args = ''
-        tune_args = ['']
-        settings = ['']
-
-        self.soapy_bladerf_sink_0 = soapy.sink(dev, "fc32", 1, '',
-                                  stream_args, tune_args, settings)
-        self.soapy_bladerf_sink_0.set_sample_rate(0, samp_rate)
-        self.soapy_bladerf_sink_0.set_bandwidth(0, 500e3)
-        self.soapy_bladerf_sink_0.set_frequency(0, trans_freq)
-        self.soapy_bladerf_sink_0.set_frequency_correction(0, 0)
-        self.soapy_bladerf_sink_0.set_gain(0, min(max(60, 17.0), 73.0))
         self._slide_range = Range(1, 300, 1, 50, 200)
         self._slide_win = RangeWidget(self._slide_range, self.set_slide, "'slide'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._slide_win)
@@ -126,7 +110,7 @@ class transmitter(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_1.set_update_time(0.10)
-        self.qtgui_freq_sink_x_1.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_1.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_1.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
@@ -168,7 +152,7 @@ class transmitter(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
@@ -228,9 +212,9 @@ class transmitter(gr.top_block, Qt.QWidget):
             log=False)
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts(access_key_0,
           thresh, 'packet_len')
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/thisara/Downloads/Rauf & Faik - Cant Buy Me Loving - La La La (это ли счастье ) (OFFICIAL VIDEO) (320 kbps).wav', False)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/sasika/Downloads/sample-file-3.wav', False)
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink(
-            '/home/thisara/Documents/CDP-communication-system/Audio/output.wav',
+            '/home/sasika/Downloads/output.wav',
             1,
             samp_rate,
             blocks.FORMAT_WAV,
@@ -249,8 +233,8 @@ class transmitter(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_1, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.soapy_bladerf_sink_0, 0))
         self.connect((self.blocks_repack_bits_bb_1, 0), (self.vocoder_cvsd_decode_bf_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_protocol_formatter_bb_0, 0))
@@ -262,7 +246,6 @@ class transmitter(gr.top_block, Qt.QWidget):
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.digital_gfsk_demod_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1, 0))
-        self.connect((self.soapy_bladerf_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.vocoder_cvsd_decode_bf_0, 0), (self.audio_sink_0, 0))
         self.connect((self.vocoder_cvsd_decode_bf_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
@@ -294,8 +277,6 @@ class transmitter(gr.top_block, Qt.QWidget):
 
     def set_trans_freq(self, trans_freq):
         self.trans_freq = trans_freq
-        self.soapy_bladerf_sink_0.set_frequency(0, self.trans_freq)
-        self.soapy_bladerf_source_0.set_frequency(0, self.trans_freq)
 
     def get_thresh(self):
         return self.thresh
@@ -317,8 +298,6 @@ class transmitter(gr.top_block, Qt.QWidget):
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 200e3, 50e3, window.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
-        self.soapy_bladerf_sink_0.set_sample_rate(0, self.samp_rate)
-        self.soapy_bladerf_source_0.set_sample_rate(0, self.samp_rate)
 
     def get_hdr_format(self):
         return self.hdr_format
@@ -355,7 +334,7 @@ def main(top_block_cls=transmitter, options=None):
 
     tb.start()
 
-    tb.show()
+    # tb.show()
 
     def sig_handler(sig=None, frame=None):
         tb.stop()

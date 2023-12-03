@@ -1,6 +1,10 @@
 # Libraries
 import streamlit as st
 from gnu_functions import detect_bladeRF, ImageFile
+import os
+
+# main_dir = os.path.dirname(__file__)
+# output = os.path.join(main_dir, 'output') 
 
 image_path = "./images/"
 image_loss = 0
@@ -17,6 +21,7 @@ def get_image_sidebar(img : ImageFile , img_caption):
     col1.metric("Size", img.get_image_size())
     col2.metric("Resolution", img.get_image_resolution())
 
+## ----------------------------------------------------------------------------------------------------------------
 # Title
 st.title('Image Transfer')
 
@@ -24,7 +29,16 @@ st.title('Image Transfer')
 with open('style.css')as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html = True)
 
+uploaded_file = st.file_uploader("Choose an audio file", 
+                                 type="png",
+                                 accept_multiple_files=False)  
 
+
+if uploaded_file is not None:
+    st.image(uploaded_file)
+    st.write(os.path.dirname(uploaded_file))
+
+# --------------------------------------------------------------------------------------------------------------
 simulation = st.toggle('Turn on Simulation')
 
 # Function call to detect bladeRF

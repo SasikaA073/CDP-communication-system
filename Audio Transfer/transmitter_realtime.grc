@@ -266,7 +266,7 @@ blocks:
     bits_per_sample3: FORMAT_VORBIS
     bits_per_sample4: FORMAT_PCM_16
     comment: ''
-    file: /home/thisara/Documents/CDP-communication-system/Audio/output.wav
+    file: /home/sasika/Downloads/output.wav
     format: FORMAT_WAV
     nchan: '1'
     samp_rate: samp_rate
@@ -283,9 +283,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    file: "/home/thisara/Downloads/Rauf & Faik - Cant Buy Me Loving - La La La (\u044D\
-      \u0442\u043E \u043B\u0438 \u0441\u0447\u0430\u0441\u0442\u044C\u0435 ) (OFFICIAL\
-      \ VIDEO) (320 kbps).wav"
+    file: /home/sasika/Downloads/sample-file-3.wav
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
@@ -294,7 +292,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 604.0]
+    coordinate: [160, 392.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -580,9 +578,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 328.0]
+    coordinate: [952, 280.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: soapy_bladerf_source_0
   id: soapy_bladerf_source
   parameters:
@@ -604,7 +602,33 @@ blocks:
     bus_structure: null
     coordinate: [1000, 188.0]
     rotation: 0
-    state: enabled
+    state: disabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1112, 360.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [824, 160.0]
+    rotation: 0
+    state: true
 - name: vocoder_cvsd_decode_bf_0
   id: vocoder_cvsd_decode_bf
   parameters:
@@ -644,6 +668,7 @@ connections:
 - [blocks_multiply_const_vxx_0, '0', low_pass_filter_0, '0']
 - [blocks_multiply_const_vxx_1, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_multiply_const_vxx_1, '0', soapy_bladerf_sink_0, '0']
+- [blocks_multiply_const_vxx_1, '0', virtual_sink_0, '0']
 - [blocks_repack_bits_bb_1, '0', vocoder_cvsd_decode_bf_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', blocks_tagged_stream_mux_0, '1']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_protocol_formatter_bb_0, '0']
@@ -656,10 +681,10 @@ connections:
 - [low_pass_filter_0, '0', digital_gfsk_demod_0, '0']
 - [low_pass_filter_0, '0', qtgui_freq_sink_x_1, '0']
 - [soapy_bladerf_source_0, '0', blocks_multiply_const_vxx_0, '0']
+- [virtual_source_0, '0', blocks_multiply_const_vxx_0, '0']
 - [vocoder_cvsd_decode_bf_0, '0', audio_sink_0, '0']
 - [vocoder_cvsd_decode_bf_0, '0', blocks_wavfile_sink_0, '0']
 - [vocoder_cvsd_encode_fb_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
