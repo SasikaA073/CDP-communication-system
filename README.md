@@ -59,3 +59,50 @@ _MSE_ $= \sum_{i=1}^{M}$ $ \sum_{j=1}^{N} [T(i,j) - R(i,j)]^{2} $
     - [ ] Physically
  - Based on the Quality of the Received Voice (Evaluated by Hearing it)
 
+___
+
+## Setup Instructions
+
+### Python Virtual Environment
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/SasikaA073/CDP-communication-system
+    cd CDP-communication-system
+    cd ST_Webapp
+    ```
+2. Install venv 
+
+    ```bash
+    sudo apt-get update
+    sudo apt-get install python3-venv
+    ```
+3. Create a Python virtual environment named "gnu":
+
+    
+    ```bash
+    python3 -m venv gnu
+    ```
+
+4. Activate the virtual environment:
+
+    ```bash
+    source gnu/bin/activate
+    ```
+
+### Install Dependencies
+
+5. Install the required Python packages from the `requirements.txt` file:
+
+    ```bash
+    pip3 install -r requirements.txt
+    ```
+
+### Run the Interface
+
+6. Run the following.
+
+    ```bash
+    streamlit run Home.py
+    ```
