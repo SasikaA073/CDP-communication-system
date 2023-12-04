@@ -14,14 +14,13 @@ from gnu_files import gnu_py_files, gnu_grc_files, gnu_resource_files, audio_dir
 from gnu_functions import detect_bladeRF, save_file, get_st_file_uploader_type, generate_st_btns
 
 # Custom functions
-def get_image_sidebar(img : ImageFile , img_caption):
-    st.image(img.get_image_path() , caption=img_caption, use_column_width=None)
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Size", img.get_image_file_size())
-    col2.metric("Resolution", img.get_image_resolution_str())
-    col3.metric("Mode", img.get_image_mode())
+# TODO: add class for audio file
+def get_st_audio(audio_path, caption):
+    st.markdown(f"### {caption}")
+    st.audio(audio_path)
+    
 
-type = "image"
+type = "audio"
 isTransmission_done = False
 
 if type == "audio":
@@ -77,21 +76,20 @@ if simulation and uploaded_file is not None:
     transmitted_file_path = gnu_resource_files[type]["input"]
     received_file_path = gnu_resource_files[type]["output"]
 
-    TransmittedImage = ImageFile(transmitted_file_path)
-    ReceivedImage = ImageFile(received_file_path)
+    TransmittedFile = transmitted_file_path
+    ReceivedFile = received_file_path
 
     if communicate_btn:
         # with st.expander("Expand for communication Statistics info"):
         c1, c2, = st.columns(2)
         with c1:
-            get_image_sidebar(TransmittedImage, "Transmitted Image")
+            get_st_audio(TransmittedFile, "Transmitted File")
 
         with c2:
-            get_image_sidebar(ReceivedImage, "Received Image")
+            get_st_audio(ReceivedFile, "Received File")
 
         isTransmission_done = True
         
-        st.success("Loss " +  str(TransmittedImage.calculate_img_loss(ReceivedImage)))
      
 # Things to do when you are the transmitter
 if (not simulation and trainsmitting_status == "Transmitting") and uploaded_file is not None:
@@ -108,11 +106,11 @@ if (not simulation and trainsmitting_status == "Transmitting") and uploaded_file
     st.markdown("## The transmited file ")
 
     transmitted_file_path = gnu_resource_files[type]["input"]
-    TransmittedImage = ImageFile(transmitted_file_path)
+    TransmittedFile = transmitted_file_path
 
     if communicate_btn_2:
         
-        get_image_sidebar(TransmittedImage, "Transmitted Image")
+        get_st_audio(TransmittedFile, "Transmitted Audio")
 
     st.markdown("___")
     st.markdown("## Import the received file ")
@@ -125,13 +123,12 @@ if (not simulation and trainsmitting_status == "Transmitting") and uploaded_file
             uploaded_file_type = get_st_file_uploader_type(uploaded_file)
             
             if uploaded_file_type == ".wav":
-                st.write("Received audio")
+                st.markdown("Received audio")
                 st.audio(uploaded_file)
                
             elif uploaded_file_type == ".png":
                 st.image(uploaded_file, caption="Received image")
 
-                
             elif uploaded_file_type == ".txt":
                 st.write("Received file")
                 file_contents = uploaded_file.read()  # Read the file content
