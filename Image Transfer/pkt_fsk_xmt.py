@@ -6,36 +6,24 @@
 #
 # GNU Radio Python Flow Graph
 # Title: pkt_fsk_xmt
-# Author: Barry Duggan
 # Description: packet FSK xmt
-# GNU Radio version: 3.10.1.1
+# GNU Radio version: 3.10.7.0
 
 from packaging.version import Version as StrictVersion
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print("Warning: failed to XInitThreads()")
-
 from PyQt5 import Qt
-from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import qtgui
-from gnuradio.filter import firdes
-import sip
+from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import analog
 import math
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import filter
+from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
+from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
@@ -43,10 +31,9 @@ from gnuradio import soapy
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import pkt_fsk_xmt_epy_block_0 as epy_block_0  # embedded python block
+import sip
 
 
-
-from gnuradio import qtgui
 
 class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
 
@@ -57,8 +44,8 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -78,8 +65,8 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
         # Parameters
@@ -105,7 +92,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.sq_lvl = sq_lvl = -50
         self.sps = sps = (int)(repeat/decim)
         self.samp_rate_0 = samp_rate_0 = 768000
-        self.reverse = reverse = -1
+        self.reverse = reverse = (-1)
         self.phase_bw = phase_bw = math.pi/32
         self.inp_amp = inp_amp = (mark/vco_max)-vco_offset
         self.hdr_format = hdr_format = digital.header_format_default(access_key, 0)
@@ -113,6 +100,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+
         self._sq_lvl_range = Range(-100, 0, 5, -50, 200)
         self._sq_lvl_win = RangeWidget(self._sq_lvl_range, self.set_sq_lvl, "Squelch", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._sq_lvl_win, 0, 1, 1, 1)
@@ -174,7 +162,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.soapy_bladerf_sink_0.set_bandwidth(0, 500e3)
         self.soapy_bladerf_sink_0.set_frequency(0, 2.46e9)
         self.soapy_bladerf_sink_0.set_frequency_correction(0, 0)
-        self.soapy_bladerf_sink_0.set_gain(0, min(max(66, 17.0), 73.0))
+        self.soapy_bladerf_sink_0.set_gain(0, min(max(70, 17.0), 73.0))
         # Create the options list
         self._samp_rate_0_options = [768000, 576000]
         # Create the labels list
@@ -196,12 +184,12 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
-            "", #name
+            "Transmit", #name
             1,
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
@@ -253,22 +241,21 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts("11100001010110101110100010010011",
           thresh, 'packet_len')
         self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
-        self.blocks_vco_c_0 = blocks.vco_c(samp_rate, 2*math.pi*vco_max, 1.0)
+        self.blocks_vco_c_0 = blocks.vco_c(samp_rate, (2*math.pi*vco_max), 1.0)
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
-        self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
+        self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, repeat)
         self.blocks_repack_bits_bb_1_0_0 = blocks.repack_bits_bb(1, 8, "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_1_0 = blocks.repack_bits_bb(8, 1, '', False, gr.GR_MSB_FIRST)
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(reverse)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(inp_amp)
-        self.blocks_file_sink_0_1_0 = blocks.file_sink(gr.sizeof_char*1, '/home/thisara/Documents/File Transfer/FSK/output.tmp', False)
+        self.blocks_file_sink_0_1_0 = blocks.file_sink(gr.sizeof_char*1, '/home/thisara/Documents/CDP-communication-system/Image Transfer/output.tmp', False)
         self.blocks_file_sink_0_1_0.set_unbuffered(True)
         self.blocks_add_const_vxx_0 = blocks.add_const_ff(vco_offset)
         self.analog_simple_squelch_cc_0 = analog.simple_squelch_cc(sq_lvl, 1)
-        self.analog_quadrature_demod_cf_0 = analog.quadrature_demod_cf(samp_rate/(2*math.pi*fsk_deviation))
-        self.analog_agc_xx_0 = analog.agc_ff(1e-4, 1.0, 1.0)
-        self.analog_agc_xx_0.set_max_gain(2.0)
+        self.analog_quadrature_demod_cf_0 = analog.quadrature_demod_cf((samp_rate/(2*math.pi*fsk_deviation)))
+        self.analog_agc_xx_0 = analog.agc_ff((1e-4), 1.0, 1.0, 2.0)
 
 
         ##################################################
@@ -284,10 +271,10 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repack_bits_bb_1_0_0, 0), (self.digital_crc32_bb_0_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_repack_bits_bb_1_0, 0))
-        self.connect((self.blocks_throttle_1, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_throttle_1, 0), (self.soapy_bladerf_sink_0, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.soapy_bladerf_sink_0, 0))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.blocks_vco_c_0, 0), (self.blocks_throttle_1, 0))
+        self.connect((self.blocks_vco_c_0, 0), (self.blocks_throttle2_0, 0))
         self.connect((self.digital_binary_slicer_fb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_repack_bits_bb_1_0_0, 0))
         self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
@@ -339,7 +326,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
     def set_fsk_deviation(self, fsk_deviation):
         self.fsk_deviation = fsk_deviation
         self.set_vco_max(self.center+self.fsk_deviation)
-        self.analog_quadrature_demod_cf_0.set_gain(self.samp_rate/(2*math.pi*self.fsk_deviation))
+        self.analog_quadrature_demod_cf_0.set_gain((self.samp_rate/(2*math.pi*self.fsk_deviation)))
 
     def get_center(self):
         return self.center
@@ -363,8 +350,8 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_repeat((int)(self.samp_rate/self.baud))
-        self.analog_quadrature_demod_cf_0.set_gain(self.samp_rate/(2*math.pi*self.fsk_deviation))
-        self.blocks_throttle_1.set_sample_rate(self.samp_rate)
+        self.analog_quadrature_demod_cf_0.set_gain((self.samp_rate/(2*math.pi*self.fsk_deviation)))
+        self.blocks_throttle2_0.set_sample_rate(self.samp_rate)
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1.0,self.samp_rate,3000,400))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
 
