@@ -3,3 +3,4 @@ streamlit==1.29.0
 streamlit-extras==0.3.5
 Pillow==10.1.0
 soundfile==0.12.1
+scipy
