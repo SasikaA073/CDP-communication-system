@@ -417,7 +417,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/thisara/Documents/CDP-communication-system/Image Transfer/output.tmp
+    file: /home/thisara/Downloads/CDP-communication-system/Image Transfer/output.tmp
     type: byte
     unbuffered: 'True'
     vlen: '1'
@@ -744,7 +744,7 @@ blocks:
   id: epy_block
   parameters:
     FileName: InFile
-    Pkt_len: '75'
+    Pkt_len: '60'
     _source_code: "\"\"\"\nEmbedded Python Block: File Source to Tagged Stream\n\"\
       \"\"\n\nimport numpy as np\nfrom gnuradio import gr\nimport time\nimport pmt\n\
       import os.path\nimport sys\nimport base64\n\nclass blk(gr.sync_block):\n   \
@@ -823,7 +823,71 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 316.0]
+    coordinate: [8, 316.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_4
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\n\nclass enc_blk(gr.sync_block):\n\
+      \n    def __init__(self, key=1.0):   \n        gr.sync_block.__init__(\n   \
+      \         self,\n            name='Encryptor',\n            in_sig=[np.ubyte],\n\
+      \            out_sig=[np.ubyte]\n        )\n        \n        self.key = key\n\
+      \n    def work(self, input_items, output_items):\n    \n        def encrypt_cesar(arr,\
+      \ shift):                \n            encrypted = []\n            \n      \
+      \      for num in arr:\n            # Shift the number by the given amount\n\
+      \                num = num + shift\n        \n                # If the number\
+      \ is greater than 255, wrap it around to the start\n                if num >\
+      \ 255:\n                    num = num - 256\n        \n                # Append\
+      \ the encrypted number to the list\n                encrypted.append(num)\n\
+      \    \n            return encrypted\n        \n        enc_arr = encrypt_cesar(input_items[0]\
+      \ , self.key)\n        output_items[0][:] = enc_arr\n        \n        return\
+      \ len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Encryptor', 'enc_blk', [('key', '1.0')], [('0', 'byte', 1)], [('0',
+      'byte', 1)], '', ['key'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [256, 260.0]
+    rotation: 0
+    state: true
+- name: epy_block_5
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\n\nclass dec_blk(gr.sync_block):\n\
+      \n    def __init__(self, key=1.0):   \n        gr.sync_block.__init__(\n   \
+      \         self,\n            name='Decryptor',\n            in_sig=[np.ubyte],\n\
+      \            out_sig=[np.ubyte]\n        )\n        \n        self.key = key\n\
+      \n    def work(self, input_items, output_items):\n    \n        def decrypt_cesar(arr,\
+      \ shift):                \n            decrypted = []\n            \n      \
+      \      for num in arr:\n                # Unshift the number by the given amount\n\
+      \                num = num - shift\n        \n                # If the number\
+      \ is less than 0, wrap it around to the end\n                if num < 0:\n \
+      \                   num = num + 256\n        \n                # Append the\
+      \ decrypted number to the list\n                decrypted.append(num)\n    \n\
+      \            return decrypted\n        \n        dec_arr = decrypt_cesar(input_items[0]\
+      \ , self.key)\n        output_items[0][:] = dec_arr\n        \n        return\
+      \ len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Decryptor', 'dec_blk', [('key', '1.0')], [('0', 'byte', 1)], [('0',
+      'byte', 1)], '', ['key'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2768, 676.0]
     rotation: 0
     state: enabled
 - name: freq_xlating_fir_filter_xxx_0
@@ -1173,7 +1237,7 @@ blocks:
     comment: ''
     dev_args: ''
     freq_correction: '0'
-    gain: '70'
+    gain: '66'
     samp_rate: usrp_rate
     type: fc32
   states:
@@ -1307,10 +1371,12 @@ connections:
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_uchar_to_float_0_0_0, '0']
 - [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '1']
 - [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
-- [digital_crc32_bb_0_0, '0', blocks_file_sink_0_1_0, '0']
+- [digital_crc32_bb_0_0, '0', epy_block_5, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_symbol_sync_xx_0, '0', virtual_sink_0_0_0, '0']
-- [epy_block_0, '0', digital_crc32_bb_0, '0']
+- [epy_block_0, '0', epy_block_4, '0']
+- [epy_block_4, '0', digital_crc32_bb_0, '0']
+- [epy_block_5, '0', blocks_file_sink_0_1_0, '0']
 - [freq_xlating_fir_filter_xxx_0, '0', analog_simple_squelch_cc_0, '0']
 - [soapy_bladerf_source_0, '0', freq_xlating_fir_filter_xxx_0, '0']
 - [virtual_source_0, '0', blocks_multiply_const_vxx_0, '0']
