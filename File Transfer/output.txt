@@ -1,0 +1,770 @@
+el simulatio. It has been developed ith GNU Radi testing, a d in place of the channel simulationansfer using Packet and  navigation
+Jump to search
+
+This is a Proof of Concept desigave commentsussion tab above, or on the GNU Radio General Chhis package consists of channel simulation, and eiver. It has been devel Radio version 3.10.6.0. For Over The Air testint / Receive s used in plhannel simulation.
+
+Contents
+
+    1 Prerequisites
+    2 Versions
+       rsion v1.0.0-control software
+    4       4.1 Sending Non-text Files
+        4.2 Recile
+        4.3 Simulating Channel Impairments
+ ransmitting the File
+     4.6 Stripping the Prealer
+    5 Over The Air Tequisites
+
+Iive that all of the prere studied before starting this one.
+U Radio: PSK Modulation on
+    Simule: BPSK Demodulation
+   unications
+
+Versions
+Ver0
+
+Version vsed the pkt_nd restored the filename display.
+
+Vtiming.
+
+Verements to the pkt_rcv flowgraph.
+
+Version v2.1.0 the input fe strip_preamble.py program displays.0.0.0 encodransmission. The file is decoded frothe original content in the strip_preamble.py program.
+Version v1.0.0.0
+
+Version v1.n HDLC frame to prevent long strings of zero byt of that, some binary fiDownload the gr-control  Open a terminal window.
+2. Change to the home directory.
+
+   cd ~/  
+
+3. If you donstall git  
+
+4. Clone thone https://github.com/d. If you want a version o the following:
+
+   cd 
+   git checx    # enter version
+
+Operation
+
+
+* * NOTE: The order of stasks is important! * *
+Sending Non-text Files
+
+Any text, binary, and other non-text f) can be sen"~/gr-controg" has been provided for is the GNU Radio logo.
+ves the BPSK signal and to the Correlate Access Code - Tag Sblock detects the Access Code and pa to check for a valid CRhe data is sent to the File_Sink.
+
+Pfg.png
+
+1. Open a new terminal windothe gr-contrtrol/Receivers
+
+3. Execu
+   python3 -u pkt_rcv.py
+
+4. A new open (titledlation_Sink imulating Chwgraphs included to allow loopback ttransmitter and a receiver without using SDR harr operates **in place of** the `xmt_rcv_switch` program. The `chan_loopback` is for modes such as BPSK packen of noise, frequency offset, and ti
+
+Chan loopback fg.png
+
+her terminal window.
+2. -control folder.
+
+   cd ~/gr-control   python3 -u chan_loopbwill open (titled "chan_loopback") showing a chooser for the Sample rated 3.10 programs, select sliders to introduce impeave them all as loaded.
+Transmitting the Fil
+File transfer using Packetmp to navigation
+Jump to search
+
+This is a Proofdesign.
+Please leave comtab above, o Radio Genernel. See Chat.
+
+This pact transmitter, a channelt receiver. It has been h GNU Radio version 3.10.6.0. For Over The Air tansmit / Receive SDR modin place of the channel simulation.
+
+
+
+File transfer using Packet and BPavigation
+Jump to search
+
+This is a Proof of Con
+Please leave comments in the Discussion tab aboe GNU Radio e Chat.
+
+This package copacket transmitter, a channel simulabeen developed and teste 3.10.6.0. For Over The Air testing, a Transmit / Receive SDR module is e of the channel simulation.
+
+Contents
+
+    1 Prerequisites
+ns
+        2.1 Version vion v1.0.0.0oad the gr-care
+    4 Operation
+    ing Non-text Files
+     e
+        4.3 Simulating Channel Impairments
+   nsmitting the File
+        4.5 Shutd4.6 Stripping the Preamble and Filler
+    5 Over The Air Testing
+
+Prereqis imperativf the prereqthis one.
+
+    Example URadio: PSK Modulation / Demodulation
+    Simulation_example: BPSK Demodulation
+    Packet Communrsions
+Version v2.X.0.0
+1.3.0 revised the pkt_xmt timing andisplay.
+
+Ver0 revised thming.
+
+Version v2.1.1.0 ents to the pkt_rcv flowgraph.
+
+Version v2.1.0.0 transmits the input file name. The m displays the received file name.
+
+Version v2.0.0.0 encodes all input fse64 for transmission. The file is decoded from Base64 to the original content in thram.
+Version v1.0.0.0
+
+Version v1.0.HDLC frame to prevent long strings of that, somewnload the gr-control so. Change to If you don't have 'git',all git  
+
+4. Clone the repository:
+
+   git clone https://github.com/duggabe/gr-control.git
+
+5. a version ot latest, do the following:
+
+   cd ~/gr-control
+    # enter the desired version
+
+OperNOTE: The order of starting the tasknt! * *
+Send Files
+
+Any , and other non-text filPDF or PNG) can be sent. The file "~ has been provided for testing. It is the GNU Radio logo.
+Receiving the v.py receiveignal and prde - Tag Strode and passo check for a valid CRC. If the CRC is good, the data is sene_Sink.
+
+Pkt.png
+
+1. Open a new terme gr-controlol/Receivers
+
+3. Execute the packet receiver.
+
+   python3 -u pkt_rcv.py
+ndow will open (titled "pkt_rcv") shtion_Sink display and two QT_GUI_Time_Sinks.
+Simulating Channel Impairments
+
+There araphs included to allow loopback tesd a receiveroperates **in place of** the `xmt_rcv_switch` program. The `chan_loopback` is for thdes such as BPSK packet. It allows introduction of noise, frChan loopbac Open another terminal window.
+2. Go to the gr-control foldegr-control
+
+3. Execute tprogram.
+
+  chan_loopbacew window will open (titled "chan_loopback") showing a chooser for the Sample rate. For the version 3.9 and s, select 76are three slroduce impairments, but for initial testing, leave them all the Fil
+File transfer using Packet a to navigation
+Jump to search
+
+This is a Proof osign.
+Please leave commeiscussion tab above, or on the GNU R Chat channel. See Chat.
+
+This packaof a packet transmitter, a channel s has been dersion 3.10.6.0. For Over The Air tessmit / Receive SDR module is used in place of the channel simulation.
+
+
+er using Packet and BPSKigation
+JumpThis is a Proof of Concept design.
+Pcomments in the Discussi, or on the GNU Radio General Chat cists of a packet transmitter, a chanon, and a par. It has been developed and tested with GNU Rad Over The AiReceive SDR module is used in place el simulation.
+
+Contents
+
+    1 Prer
+        2.1  2.2 Version v1.0.0.0
+ e
+    4 Oper  4.1 Sendiniles
+        4.2 Receiving the File
+        4.3 Simulating Channel Impairments
+        4.4 TransFile
+       6 Stripping the Preamble and Filler
+ng
+
+Prerequisites
+
+It isthe prerequisites are st starting this one.
+
+    Example Usaulation / DePSK Demodulaations
+
+Versions
+Version v2.X.0.0
+
+Version v2.1.the pkt_xmt timing and restored the play.
+
+Version v2.1.2.0 pkt_xmt timi v2.1.1.0 hat_rcv flowgraph.
+
+Versioname. The strip_preamble.py program  received file name.
+
+Vell input files into Basemission. The file is decoded from Base64 to the original content in the le.py program.
+Version v1.0.0.0
+
+Version v1.0.0.0 uses an HDprevent longIn spite of that, some binary files load the gr-ware
+
+1. Open a terminalChange to the home directory.
+
+   cd ~/  
+
+3. Ifave 'git', enter
+
+   sudo apt instalClone the rehttps://github.com/duggabe/gr-contro you want a version other than the latest, do the following:
+
+   cd ~/grgit checkout v2.x.x.x    # enter theion
+
+
+* * NOTE: The orde! * *
+Sending Non-text Files
+
+Any teand other non-text files (such as PDhe file "~/gr-control/gr-logo.png" hided for teso logo.
+Receiving the File
+
+pkt_rcv.nal and presents it to the Correlate - Tag Stream. That block detects the and passes to the Strecheck for a valid CRC. I good, the data is sent to the File_Sink.
+
+Pkt rng
+
+1. Open a new termin. Go to the gr-control/Receivers fol3. Execute tceiver.
+
+   python3 -u pkt_rcv.py
+
+4. A new windt_rcv") showing a QT_GUI_Constellation_Sink display and two QT_GUI_Time_Sinks.
+Simull Impairments
+
+There are two flowgraphs included to allow loopback testia receiver werates **in place of** the `xmt_rcv_switch` program. The `chan_loopback`s such as BPSK packet. Iuency offset, and timing offset.
+
+Chfg.png
+
+1. Oterminal wino the gr-control folder.
+
+   cd ~/gr Execute theogram.
+
+   pan_loopback.py
+
+4. A new open (titled "chan_loopback") showing a chooserple rate. For the version 3.9 and 3.10 programs, select 768kers to introduce impairmr initial te them all as loaded.
+Transmitting thransfer using Packet and BPSK
+Jump to navigationrch
+
+This is a Proof of Concept desieave comments in the Dis the GNU Radio General CThis package consists of a packet tr channel simulation, andceiver. It has been deveion 3.10.6.0. For Over Tit / Receive SDR module is used in pchannel simulation.
+
+
+
+F using Packet and BPSK
+Jump to navigf of Conceptase leave comments in the Discussion tab above, U Radio General Chat channel. See Chat.
+
+This package consists of a packet transmitt, and a packet receiver.nd tested with GNU Radio version 3.1ver The Air ransmit / Redule is used in place of the channel simulation.
+
+Contents
+
+    1 Prerequisites
+           2.1 Version v2.X.0.0
+        2.2 Version v1.0.0.0
+    3 Download the gr-contrion
+        4.1 Sending .2 Receiving the File
+  nnel Impairmtting the File
+        4.5 Shutdown
+e Preamble and Filler
+  
+
+Prerequisimperative that all of the prerequisitarting this one.
+
+    Eo: PSK Modulation / Demodulation
+   example: BPSK Demodulation
+    Packet Communicatns
+Version v2.X.0.0
+
+Ver0 revised the pkt_xmt timing and reslename display.
+
+Version v2.1.2.0 revised the pkt_xmt timing.
+
+Version v2.1.1.0 has improvements to the pkt_h.
+
+Version v2.1.0.0 tranput file name. The strisplays the received file name.
+
+Vers encodes all input files into Base64ile is decoded from Baseiginal content in the strip_preamble.py program.on v1.0.0.0 trings of ze spite of thary files failed.
+Downlore
+
+1. Open a terminal window.
+2. Chhome directory.
+
+   cd ~e 'git', enter
+
+   sudo one the repo.com/duggabe/gr-control.rsion other than the latest, do the    cd ~/gr-control
+   git checkout v enter the desired version
+
+Operation
+
+
+* * NOTE: The order of starting the tasks is important! * *
+Sending Non-text Files
+
+Any textd other non-text files (be sent. The file "~/gr-control/gr-logo.png" has been provided for testing. It is the GNU Radio ing the File
+
+pkt_rcv.py receives the BPSK signal and presen Correlate Access Code - Tag Stream.and passes the payload to the Streameck for a valid CRC. If the CRC is ga is sent to the File_Sinew terminal-control/Receivers folder.
+
+   cd ~/eceivers
+
+3. Execute the packet receiver.
+
+   py_rcv.py
+
+4. A new window will open (rcv") showinonstellation_Sink display and two QT_GUI_Time_Siing Channel Impairments
+
+There are two flowgrapho allow loopback testingreceiver without using Sates **in place of** them. The `chan_loopback` is for the disuch as BPSK packet. It allows introduction of nncy offset, and timing offset.
+
+Chan.png
+
+1. Open another tethe gr-control folder.
+
+xecute the lram.
+
+   pyt_loopback.py
+
+4. A new w"chan_loopback") showinge rate. For the version 3.9 and 3.10 programs, select 768kHz. There are three sliders to introduts, but for initial testoaded.
+Transnsfer using Packet and Bnavigation
+Jump to search
+
+This is a Proof of Co.
+Please leave comments in the Discussion tab abhe GNU Radiot channel. See Chat.
+
+This package channel simul been developed and testn 3.10.6.0. For Over The, a TransmitDR module is used in place of the chtion.
+
+
+
+File transfer up to navigation
+Jump to of Concept design.
+Please leave commDiscussion tab above, or on the GNU Radio General Chat channage consists of a packetand a packet receiver. I tested with GNU Radio version 3.10.6.0. For Over The Air testing, a Traive SDR modun place of timulation.
+
+  1 Prerequisites
+    2 sion v2.X.0.0
+        2.2 Version v1.0.0.0
+    3 Download the gr-control software
+    4 Operation
+        4.1 Sending No
+        4.2 Receiving the File
+    el Impairmen.4 Transmitt
+        4.5 Shutdown
+        4.6 Stripping the Preamble and Filler
+    5 Over The APrerequisites
+
+It is impprerequisites are studied before stample Usage of GNU Radio: PSK Modulatlation
+    Simulation_example: BPSK Demodulation
+    Packet X.0.0
+
+Version v2.1.3.0 pkt_xmt timing and restored the file2.1.2.0 revixmt timing.
+
+Version v2.1.1.0 has im
+
+Version v2. The strip_preamble.py program dispeived file name.
+
+Versioncodes all into Base64 for transmission. The file is decoded from Base64 to the original content in the strip_preamble.py program.
+V0.0
+
+Version v1.0.0.0 uses an HDLC frame to prevent long strings of zero bytes. In s, some binary files failrol software
+
+1. Open a terminal winme directory.
+
+   cd ~/  
+
+3. If you'git', entert install gie the repository:
+
+   gis://github.com/duggabe/gr-control.gi want a version other than the latest, do the fotrol
+   git ired version
+
+Operation
+
+
+* * NOTE:  starting the tasks is in-text Files
+
+Any text, xt files (su PNG) can be sent. The file "~/gr-control/gr-log for testing. It is the GNU Radio log the File
+
+pkt_rcv.py rBPSK signal and presents it to the Correlate Accag Stream. That block decess Code an payload to the Stream_CRC32 to checd CRC. If thhe File_Sink.
+
+Pkt rcv fw terminal window.
+2. Go to the gr-cvers folder.-control/Receivers
+
+3. Execute the pon3 -u pkt_rcv.py
+
+4. A v") showing a QT_GUI_Constellation_Sand two QT_GUI_Time_Sinks.
+Simulatinhere are twoincluded to ck testing oceiver without using SDR hardware. Either operate of** the `xmt_rcv_switch` program. The `chan_loopback` is for the digital modes such as BPSK packet. It alction of noiy offset, and timing offoopback fg.png
+
+1. Open another terminal window.
+2. Go to the gr-control folder.
+
+   cd ~/gr-control
+
+3. Execute the loopback progran3 -u chan_l4. A new winhan_loopback") showing arate. For the version 3.9 and 3.10 programs, select 768kHz. There are three sliders  impairments, but for initial testinded.
+Transmitting the Ficket and BPS
+This is a Proof of Concept design.
+Please leave comments in the Discusse, or on the GNU Radio General Chat  package consists of a packet transmion, and a packet receivd and testeddio version r Over The Aa Transmit / module is used in placeon.
+
+
+
+File transfer using Packet anto navigation
+Jump to search
+
+This is a Proof of Concept desleave commenscussion tabChat channel. See Chat.
+
+This packagf a packet transmitter, a channel simulation, and a packet receiver. It has been developed and tested with GNU Radio version 3.10.6.The Air testing, a Transmit / Receive SDR moduleplace of the channel simulation.
+
+Co1 Prerequisites
+    2 Versions
+        2.1 Version v2.X.0.0
+.0.0
+    3 Download the gr-control s        4.1 Sending Non-       4.2 Receiving the File
+      ting Channel Impairments
+        4.4       4.5 Shutdown
+    eamble and Filler
+    5 Over The Airerequisites
+
+It is imperative that aare studied before starting this one.
+
+    Example Usage of GNU Radio: PSK Modulatiotion
+    Simulation_example: BPSK De   Packet Co
+
+Versions
+Version v2.X.0.0
+
+Version v2.1.3.0 ret_xmt timing and restored the filename display.
+1.2.0 revised the pkt_xm1.0 has improvements to the pkt_rcv .0.0 transmits the input file name. The strip_preamble.py program displays the receie.
+
+Version o Base64 for transmissiois decoded from Base64 to the originn the strip_preamble.py sion v1.0.0.1.0.0.0 usesme to prevengs of zero bsome binary files failed.
+Download the gr-contro1. Open a terminal window.
+2. Change to the home
+   cd ~/  
+
+3. If you dit', enter
+
+   sudo apt install git ry:
+
+   git clone https:control.git
+
+5. If you want a versio the latest, do the folld ~/gr-control
+   git chx.x    # ented version
+
+Operation
+
+
+* * NOTE: Thtarting the tasks is important! * *
+text Files
+
+Any text, bi files (such as PDF or Pent. The file "~/gr-control/gr-logo.n provided fIt is the GNU Radio logot_rcv.py receives the BPd presents it to the Correlate Access Code - Tagt block detects the Access Code and passes the payload to the Stream_CRCCRC. If the  the data is File_Sink.
+
+Pkt rcv filterminal window.
+2. Go to the gr-control/Receivers folder.
+
+   cd ~/gr-ccute the packet receiver.
+
+   python.py
+
+4. A new window wil) showing a QT_GUI_Constellation_Sink display an_Time_Sinks.irments
+
+There are two flowgraphs inlow loopback testing of a transmitter and a rece using SDR hof** the `xmhe `chan_loopback` is fol modes suchket. It allows introduction of noiseoffset, and timing offset.
+
+Chan looother terminal window.
+2older.
+
+   cd ~/gr-control
+
+3. Execute the loopback program.
+
+   python3 A new window will open (titled "cha showing a chooser for the Sample raversion 3.9 grams, select 768kHz. There are three sliders tompairments, but for initial testing, leave them d.
+Transmitting the Fil
+r using Packet and BPSK
+Jump to navito search
+
+Tof of Concepease leave comments in the Discussion tab above,NU Radio General Chat channel. See Chat.
+
+This package consists of a packet transmitel simulation, and a packet receiverand tested with GNU RadiOver The AirTransmit / Receive SDR module is used in place ol simulation.
+
+
+
+File transfer using navigation
+Jump to searoncept design.
+Please leave commentsussion tab above, or on o General ChSee Chat.
+
+This package consists of nsmitter, a eiver. It has been develted with GNU Radio version 3.10.6.0. For Over Thg, a Transmis used in place of the cPrerequisite 2.1 Version v2.X.0.0
+        2.2 Version v1.0.0nload the gr-control sofOperation
+        4.1 Sending Non-text Files
+   eiving the File
+        ng Channel Impairments
+        4.4 Transmitting tdown
+        4.6 Strippler
+    5 Over The Air Tequisites
+
+It is imperate studied before startin Usage of GN Modulation on
+    Simulation_exampldulation
+    Packet Communications
+
+0
+
+Version v2.1.3.0 revixmt timing and restored the filename display.
+
+V2.0 revised the pkt_xmt timing.
+
+Version v2.1.1.0 has improvements to the pkt_rcv fl.0 transmits the input fmble.py program displaysd file name.
+
+Version v2es all inputBase64 for transmission. The file ism Base64 to the strip_preamble.py program.
+Versi
+Version v1.0.0.0 uses an HDLC frame to prevent  of zero bytes. In spiteDownload the Open a terminal window.o the home directory.
+
+   cd ~/  
+
+3', enter
+
+   sudo apt install git  
+e repository:
+
+   git clgithub.com/dntrol.git
+
+5he latest, d
+   git checkout v2.x.x. version
+
+Operation
+
+
+* * NOTE: The sks is important! * *
+Sey text, binas PDF or PNG) can be sen"~/gr-control/gr-logo.png" has been provided for is the GNU Radio logo.
+Receiving thrcv.py recei signal and presents it to the Correlate Access tream. That block detects the Accessload to the Stream_CRC32 to check foC. If the CRC is good, tent to the File_Sink.
+
+Pkt rcv file rminal window.
+2. Go to the gr-contr cd ~/gr-control/Receivers
+
+3. Execute the packet receiver.
+
+   python3 -u pkt_rcv.py
+
+4. A new window will open (titledshowing a QT_GUI_Constellation_Sink ime_Sinks.
+Sannel Impair are two flowgraphs included to allow loopback testing of a transmitter and a receiver without using SDR hardware. Eithe*in place of** the `xmt_rcv_switch` program. Theack` is for the digital modes such as BPSK packe introduction of noise, frequency ofming offset.her terminal window.
+2. -control folder.
+
+   cd ~/gr-control
+
+3. Executek program.
+
+   python3 -u chan_loopb new window howing a cho. For the version 3.9 and 3.10 programs, select 768kHz. There are three sliders to iairments, but for initial testing, leave them all as loaded.g the Fil
+File transfer  and BPSK
+Jump to navigation
+Jump to of Concept  Discussion tab above, o Radio General Chat chankage consists of a packe and a packed tested with GNU Radio .6.0. For Over The Air testing, a Treive SDR module is used in place of sfer using Pmp to search
+
+This is a Proof of Con
+Please leave comments in the Discusve, or on the GNU Radio General Chat channel. See Chat.
+
+This package consists of a mitter, a chtion, and a ver. It has been developed and tested with GNU Radio versionor Over The  a Transmit / Receive SDe of the channel simulation.
+
+Conten    2 Versions
+        2.1 Version v2.X.0.0
+        2.2 Version v1.0.0.0
+    3 Download the gr-control softweration
+    ing Non-text Files
+     ving the File
+        4.3 Simulatingairments
+        4.4 Tra   4.5 Shutdown
+        le and Filler
+    5 Overis imperative that all ostudied before starting this one.
+
+    Example Usage of GNU Radio: PSK MDemodulationion_example: BPSK Demoduacket Communications
+
+Versions
+Version v2.X.0.0
+
+Version v2.1.3.0 reviset timing and restored the filename display.
+
+Ver0 revised the pkt_xmt tihas improvements to the pkt_rcv flow transmits the input file name. The le.py program displays tVersion v2.0.0.0 encodesiles into Base64 for transmission. Te original content in the strip_prearam.
+Version v1.0.0.0
+
+Version v1.0.HDLC frame to prevent long strings of zero bytes. In spite of that, somewnload the gr-control sopen a terminal window.
+2cd ~/  
+
+3. If you don't have 'git',udo apt install git  
+
+4repository:
+
+   git clone https://gigabe/gr-control.git
+
+5. If you want a version otthe followinut v2.x.x.x    # enter the desired version
+
+Operation
+
+
+* * der of starts is important! * *
+Sending Non-texttext, binary, and other non-text filPDF or PNG)  The file "~/gr-control/gr-logo.png"esting. It is the GNU Rav.py receives the BPSK signal and pr the Correlate Access Coock detects the Access Code and passes the payload to the Stream_CRC32 to check for a valid CRC.is good, the data is sene_Sink.
+
+Pkt rcv file fg.png
+
+1. Open a new terminal window.
+2. Go to the gr-control/Receivers fd ~/gr-contr
+
+3. Execute the packet receiver.
+
+   python3 -undow will open (titled "owing a QT_GUI_Constellation_Sink display and twe_Sinks.
+Simulating Channts
+
+There araphs includloopback tesansmitter and a receiverare. Either operates **iv_switch` program. The `e digital modes such as BPSK packet.ntroduction of noise, fret, and timing offset.
+
+r terminal window.
+2. Go to the gr-control folder.
+
+   cd ~/gr-control
+
+3. Execute tprogram.
+
+   python3 -u ll open (titled "chan_loopback") showing a chooser for the Sample rate. ion 3.9 and 3.10 program8kHz. There are three sliders to inttesting, leave them all ransmitting the Fil
+File transfer using Packet and BPSK
+Jump to navigatif Concept dents in the Discussion taadio General Chat channel. See Chat.
+
+This packaof a packet transmitter, a channel simulation, areceiver. It has been developed and GNU Radio ve.0. For Overting, a Transmit / Receive SDR module is used in place of the channel si
+File transfer using Packet and BPSK
+Jump to navigation
+Jump to search
+
+pt design.
+Please leave comments in , or on the GNU Radio GeChat.
+
+This package conscket transmitter, a channel simulaticket receiver. It has been developed.10.6.0. For Over The Ai Transmit / Receive SDR module is used in place of the channel simulation.
+
+Contents  2 Versions
+        2.1  2.2 Version v1.0.0.0
+    3 Download the gr-control softwarg Non-text Files
+        4.2 Receiving the File
+        4.3 Simulating Crments
+        4.4 Transmitting the File
+        4.5 Shutdown
+        4.6 Stripping the Preamble    5 Over The Air Testisites
+
+It isthat all of the prerequisites are studied before starting thge of GNU Radio: PSK Modulation / Den_example: BPSK Demodulation
+    Pacations
+
+Versions
+Version v2.X.0.0
+
+Version v2.1.3.0 revised timing and restored the filename dispkt_xmt timing.
+
+Versionts to the pkt_rcv flowgraph.
+
+Version v2.1.0.0 transmits the input file rip_preamble.py program displays the received file name.
+
+Ve.0 encodes all input fil64 for transmission. The file is decse64 to the original content in the le.py program.
+Version v0 uses an HDLC frame to prevent longzero bytes. In spite of that, some binary files load the gr-control softn a terminal window.
+2. Change to th ~/  
+
+3. If you don't hl git  
+
+4. Clone the re  git clone https://github.com/duggabe/gr-contro you want a version othee following:
+
+   cd ~/grgit checkout v2.x.x.x    # enter the desired version
+
+Operation
+
+
+* * NOr of startinis important! * *
+Sending Non-text Fxt, binary, and other no (such as PDF or PNG) can be sent. Tr-control/gr-logo.png" has been provided for teso logo.
+Receiving the File
+
+pkt_rcv.the BPSK signal and preshe Correlate Access Codee Access Code and passesam_CRC32 to check for a valid CRC. I good, the dSink.
+
+Pkt rcv file fg.p. Go to the ~/gr-control/Receivers
+
+3. Execute tceiver.
+
+   python3 -u pkt_rcv.py
+
+4. A new wind (titled "pkt_rcv") showon_Sink display and two QT_GUI_Time_Sinks.
+Simulating Channel Impairment two flowgraphs includedsmitter and a receiver w SDR hardware. Either opswitch` progan_loopback`digital modes such as BPSK packet. Iroduction of noise, frequency offset, and timing offset.
+
+Chan loopback pen another dow.
+2. Go ttrol folder.
+
+   cd ~/gr-control
+
+3.ogram.
+
+   python3 -u chan_loopback.py
+
+4. A new window will open (titled "chan_loopng a chooser for the Sample rate. Fo10 programs, select 768ke three sliders to introents, but fosting, leave them all as loaded.
+Trae Fil
+File transfer using Packet and BPSK
+Jump to navigation
+Jump to seaConcept design.
+Please leave commentcussion tab above, or on the GNU Rad See Chat.
+
+ansmitter, aulation, and a packet receiver. It has been devested with GNU Radio version 3.10.6.0. For Over Tng, a Transm SDR module lace of the lation.
+
+
+
+F using Packeo search
+
+This is a Prooase leave comments in th tab above, U Radio General Chat channel. See Chat.
+
+This package consists of a packet transmitter, a channel simulation, and a pack It has been developed and tested with GNU Radio version 3.10.6.0. For Over The Air testing, a Tceive SDR mo the channel simulation.
+
+Contents
+
+    1 Prereq2 Versions
+        2.1 Version v2.X.0.0
+        2.2 Version v1.0.0.0
+   the gr-control software
+    4 Operat4.1 Sending es
+        4 the File
+  mulating Chatting the File
+        4.5 Shutdown
+Stripping th Air Testing
+
+Prerequisiat all of the prerequisites are studtarting thisxample Usageo: PSK Modulation / Demodulation
+    Simulation_example: BPSK Demodulatiions
+
+Versions
+Version v2.X.0.0
+
+Vere pkt_xmt timing and resay.
+
+Versiont_xmt timing.
+
+Version vrcv flowgrapnsmits the input file name. The striy program displays the received file name.
+
+Version v2.0.0.0 encodes all for transmission. The f64 to the original conte
+Version v1.0.0.0
+
+Version v1.0.0.0 uses an HDLC frame to prevent long strings of zero bytes. In spite of that, some binary files failed.
+Downlontrol software
+
+1. Open a terminal wange to the home directo/  
+
+3. If you don't have 'git', enter
+
+   sudo apt install git  
+
+4. Clone the repogit clone https://githubgit
+
+5. If you want a vefollowing:
+
+   cd ~/gr-control
+   gi2.x.x.x    # enter the desired version
+
+Operation
+
+
+* * NOTE: The order the tasks is* *
+Sending es
+
+Any textd other non-text files (or PNG) can be sent. The file "~/gr-control/gr-l been provided for testie GNU Radio logo.
+Receiving the File
+
+pkt_rcv.pye BPSK signal and presenccess Code - That block Access Code and passes the payload t_CRC32 to check for a vaood, the data is sent to the File_Sink.
+
+Pkt rcv
+
+1. Open a new terminalGo to the gr-control/Receivers foldeeceivers
+
+3. Execute the packet receiver.
+
+   python3 -u pktA new windowtitled "pkt_g a QT_GUI_Constellation_Sink display and two QTing Channel wo flowgraphs included titter and a DR hardware. Either operates **in place of** theitch` program. The `chan_loopback` is for the disuch as BPSKallows introoise, frequency offset, and timing offset.
+
+Chan loopback fg.png
+
+1. Operminal window.
+2. Go to the gr-control folder.
+
+   cd ~/gr-control
+
+3. Execute the lhon3 -u chan
+
+4. A new wpen (titled "chan_loopback") showingor the Sample rate. For the version 3.9 and 3.10 programs, select 768kHzthree sliders to introduce impairmeninitial testing, leave them all as lmitting the nsfer using Packet and Bnavigation
+Jump to search
+
+This is ancept design.
+Please leave comments in the Discussion tab above, or on the GNU Radiot channel. See Chat.
+
+This package c packet transmitter, a civer. It has been developed and tested with GNU Radio version 3.10.6.0. 

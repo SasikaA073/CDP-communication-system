@@ -79,7 +79,7 @@ blocks:
     comment: ''
     dim1: '4'
     dim2: '1'
-    framebits: frame_size*8
+    framebits: '12000'
     ndim: '0'
     prob: '0.5'
     rep: '3'
@@ -88,7 +88,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 700.0]
+    coordinate: [760, 676.0]
     rotation: 0
     state: enabled
 - name: enc_dummy
@@ -112,14 +112,14 @@ blocks:
     comment: ''
     dim1: '4'
     dim2: '1'
-    framebits: frame_size*8
+    framebits: '12000'
     ndim: '0'
     rep: '3'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 580.0]
+    coordinate: [760, 580.0]
     rotation: 0
     state: enabled
 - name: hdr_format
@@ -132,6 +132,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [720, 12.0]
+    rotation: 0
+    state: enabled
+- name: rep
+  id: variable
+  parameters:
+    comment: ''
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 684.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -187,7 +199,24 @@ blocks:
     coordinate: [912, 12.0]
     rotation: 0
     state: true
-- name: blocks_char_to_float_0_2_0
+- name: MTU
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: MTU
+    short_id: ''
+    type: intx
+    value: '1500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 580.0]
+    rotation: 0
+    state: enabled
+- name: blocks_char_to_float_1_1
   id: blocks_char_to_float
   parameters:
     affinity: ''
@@ -201,7 +230,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2456, 116.0]
+    coordinate: [2456, 244.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0_1_0
@@ -211,7 +240,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /home/thisara/Documents/CDP-communication-system/FIle Transfer/output.txt
+    file: /home/thisara/Downloads/CDP-communication-system/File Transfer/output.txt
     type: byte
     unbuffered: 'True'
     vlen: '1'
@@ -219,27 +248,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2872, 228.0]
+    coordinate: [2728, 388.0]
     rotation: 0
     state: enabled
-- name: blocks_file_sink_0_1_0_0
-  id: blocks_file_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    append: 'False'
-    comment: ''
-    file: /home/thisara/Documents/GFSK/output.tmp
-    type: byte
-    unbuffered: 'True'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [2872, 340.0]
-    rotation: 0
-    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -247,7 +258,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/thisara/Documents/CDP-communication-system/FIle Transfer/message.txt
+    file: /home/thisara/Downloads/CDP-communication-system/File Transfer/message.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -298,29 +309,53 @@ blocks:
     coordinate: [1208, 468.0]
     rotation: 0
     state: enabled
-- name: blocks_pack_k_bits_bb_0
-  id: blocks_pack_k_bits_bb
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    k: '8'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [2856, 116.0]
-    rotation: 0
-    state: true
-- name: blocks_repack_bits_bb_1
+- name: blocks_repack_bits_bb_0_0
   id: blocks_repack_bits_bb
   parameters:
     affinity: ''
     alias: ''
     align_output: 'False'
     comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '8'
+    l: '1'
+    len_tag_key: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 212.0]
+    rotation: 0
+    state: enabled
+- name: blocks_repack_bits_bb_0_0_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '1'
+    l: '8'
+    len_tag_key: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 476.0]
+    rotation: 0
+    state: enabled
+- name: blocks_repack_bits_bb_1_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: MSB
     endianness: gr.GR_MSB_FIRST
     k: '1'
     l: '8'
@@ -331,10 +366,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2344, 244.0]
+    coordinate: [2280, 396.0]
     rotation: 0
     state: enabled
-- name: blocks_stream_to_tagged_stream_0_0
+- name: blocks_stream_to_tagged_stream_0
   id: blocks_stream_to_tagged_stream
   parameters:
     affinity: ''
@@ -343,14 +378,14 @@ blocks:
     len_tag_key: '"packet_len"'
     maxoutbuf: '0'
     minoutbuf: '0'
-    packet_len: frame_size
+    packet_len: '12'
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 212.0]
+    coordinate: [248, 212.0]
     rotation: 0
     state: enabled
 - name: blocks_tagged_stream_mux_0
@@ -373,45 +408,10 @@ blocks:
     coordinate: [736, 456.0]
     rotation: 0
     state: enabled
-- name: blocks_throttle_0
-  id: blocks_throttle
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    ignoretag: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samples_per_second: samp_rate
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 220.0]
-    rotation: 0
-    state: enabled
-- name: blocks_unpack_k_bits_bb_0
-  id: blocks_unpack_k_bits_bb
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    k: '8'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [312, 140.0]
-    rotation: 0
-    state: enabled
-- name: digital_correlate_access_code_xx_ts_0
+- name: digital_correlate_access_code_xx_ts_0_0
   id: digital_correlate_access_code_xx_ts
   parameters:
-    access_code: access_key_0
+    access_code: '"11100001010110101110100010010011"'
     affinity: ''
     alias: ''
     comment: ''
@@ -424,10 +424,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2032, 284.0]
+    coordinate: [2024, 228.0]
     rotation: 0
-    state: enabled
-- name: digital_crc32_bb_0
+    state: true
+- name: digital_crc32_bb_0_0
   id: digital_crc32_bb
   parameters:
     affinity: ''
@@ -442,10 +442,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2576, 236.0]
+    coordinate: [2488, 388.0]
     rotation: 0
-    state: disabled
-- name: digital_crc32_bb_0_0
+    state: enabled
+- name: digital_crc32_bb_0_1
   id: digital_crc32_bb
   parameters:
     affinity: ''
@@ -460,9 +460,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 476.0]
+    coordinate: [488, 204.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: digital_gfsk_demod_0
   id: digital_gfsk_demod
   parameters:
@@ -507,7 +507,7 @@ blocks:
     coordinate: [1008, 452.0]
     rotation: 0
     state: enabled
-- name: digital_map_bb_0_0_0_0
+- name: digital_map_bb_0_0
   id: digital_map_bb
   parameters:
     affinity: ''
@@ -520,7 +520,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2328, 116.0]
+    coordinate: [2320, 244.0]
     rotation: 0
     state: enabled
 - name: digital_protocol_formatter_bb_0
@@ -540,133 +540,71 @@ blocks:
     coordinate: [472, 404.0]
     rotation: 0
     state: enabled
-- name: epy_block_0_0
-  id: epy_block
+- name: digital_symbol_sync_xx_0
+  id: digital_symbol_sync_xx
   parameters:
-    FileName: InFile
-    Pkt_len: '60'
-    _source_code: "\"\"\"\nEmbedded Python Block: File Source to Tagged Stream\n\"\
-      \"\"\n\nimport numpy as np\nfrom gnuradio import gr\nimport time\nimport pmt\n\
-      import os.path\nimport sys\nimport base64\n\n\"\"\"\nState definitions\n   \
-      \ 0   idle\n    1   send preamble\n    2   send file data\n    3   send file\
-      \ name\n    4   send post filler\n\"\"\"\n\nclass blk(gr.sync_block):\n    def\
-      \ __init__(self, FileName='None', Pkt_len=52):\n        gr.sync_block.__init__(\n\
-      \            self,\n            name='EPB: File Source to Tagged Stream',\n\
-      \            in_sig=None,\n            out_sig=[np.uint8])\n        self.FileName\
-      \ = FileName\n        self.Pkt_len = Pkt_len\n        self.state = 0      #\
-      \ idle state\n        self.pre_count = 0\n        self.indx = 0\n        self._debug\
-      \ = 0     # debug\n        self.data = \"\"\n\n        if (os.path.exists(self.FileName)):\n\
-      \            # open input file\n            self.f_in = open (self.FileName,\
-      \ 'rb')\n            self._eof = False\n            if (self._debug):\n    \
-      \            print (\"File name:\", self.FileName)\n            self.state =\
-      \ 1\n        else:\n            print(self.FileName, 'does not exist')\n   \
-      \         self._eof = True\n            self.state = 0\n\n        self.char_list\
-      \ = [37,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85, 85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,\
-      \ 85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85, 85,85,85,93]\n        self.c_len\
-      \ = len (self.char_list)\n        # print (self.c_len)\n        self.filler\
-      \ = [37,85,85,85, 35,69,79,70, 85,85,85,85,85,85,85,85, 85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,\
-      \ 85,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85, 85,85,85,93]\n        self.f_len\
-      \ = len (self.filler)\n\n    def work(self, input_items, output_items):\n\n\
-      \        if (self.state == 0):\n            # idle\n            return (0)\n\
-      \n        elif (self.state == 1):\n            # send preamble\n           \
-      \ if (self._debug):\n                print (\"state = 1\", self.pre_count)\n\
-      \            key1 = pmt.intern(\"packet_len\")\n            val1 = pmt.from_long(self.c_len)\n\
-      \            self.add_item_tag(0, # Write to output port 0\n               \
-      \ self.indx,   # Index of the tag\n                key1,   # Key of the tag\n\
-      \                val1    # Value of the tag\n                )\n           \
-      \ self.indx += self.c_len\n            i = 0\n            while (i < self.c_len):\n\
-      \                output_items[0][i] = self.char_list[i]\n                i +=\
-      \ 1\n            self.pre_count += 1\n            if (self.pre_count > 64):\n\
-      \                self.pre_count = 0\n                self.state = 2      # send\
-      \ msg\n            return (self.c_len)\n\n        elif (self.state == 2):\n\
-      \            while (not (self._eof)):\n                buff = self.f_in.read\
-      \ (self.Pkt_len)\n                b_len = len(buff)\n                if b_len\
-      \ == 0:\n                    print ('End of file')\n                    self._eof\
-      \ = True\n                    self.f_in.close()\n                    self.state\
-      \ = 3      # send file name\n                    self.pre_count = 0\n      \
-      \              break\n                # convert to Base64\n                encoded\
-      \ = base64.b64encode (buff)\n                e_len = len(encoded)\n        \
-      \        if (self._debug):\n                    print ('b64 length =', e_len)\n\
-      \                key0 = pmt.intern(\"packet_len\")\n                val0 = pmt.from_long(e_len)\n\
-      \                self.add_item_tag(0, # Write to output port 0\n           \
-      \         self.indx,   # Index of the tag\n                    key0,   # Key\
-      \ of the tag\n                    val0    # Value of the tag\n             \
-      \       )\n                self.indx += e_len\n                i = 0\n     \
-      \           while (i < e_len):\n                    output_items[0][i] = encoded[i]\n\
-      \                    i += 1\n                return (e_len)\n\n        elif\
-      \ (self.state == 3):\n            # send file name\n            fn_len = len\
-      \ (self.FileName)\n            key1 = pmt.intern(\"packet_len\")\n         \
-      \   val1 = pmt.from_long(fn_len+8)\n            self.add_item_tag(0, # Write\
-      \ to output port 0\n                self.indx,   # Index of the tag\n      \
-      \          key1,   # Key of the tag\n                val1    # Value of the\
-      \ tag\n                )\n            self.indx += (fn_len+8)\n            i\
-      \ = 0\n            while (i < 8):\n                output_items[0][i] = self.filler[i]\n\
-      \                i += 1\n            j = 0\n            while (i < (fn_len+8)):\n\
-      \                output_items[0][i] = ord(self.FileName[j])\n              \
-      \  i += 1\n                j += 1\n            self.state = 4\n            return\
-      \ (fn_len+8)\n\n        elif (self.state == 4):\n            # send post filler\n\
-      \            if (self._debug):\n                print (\"state = 4\", self.pre_count)\n\
-      \            key1 = pmt.intern(\"packet_len\")\n            val1 = pmt.from_long(self.f_len)\n\
-      \            self.add_item_tag(0, # Write to output port 0\n               \
-      \ self.indx,   # Index of the tag\n                key1,   # Key of the tag\n\
-      \                val1    # Value of the tag\n                )\n           \
-      \ self.indx += self.f_len\n            i = 0\n            while (i < self.f_len):\n\
-      \                output_items[0][i] = self.filler[i]\n                i += 1\n\
-      \            self.pre_count += 1\n            if (self.pre_count > 16):\n  \
-      \              self.pre_count = 0\n                self.state = 0      # idle\n\
-      \            return (self.f_len)\n\n        return (0)\n\n"
     affinity: ''
     alias: ''
-    comment: 'Filename is specified on the command line, e.g.:
-
-      python3 pkt_xmt.py --InFile="../gr-logo.png"'
+    comment: ''
+    constellation: digital.constellation_bpsk().base()
+    damping: '1.0'
+    loop_bw: '0.045'
+    max_dev: '1.5'
     maxoutbuf: '0'
     minoutbuf: '0'
+    nfilters: '128'
+    osps: '2'
+    pfb_mf_taps: '[]'
+    resamp_type: digital.IR_MMSE_8TAP
+    sps: '2'
+    ted_gain: '1.0'
+    ted_type: digital.TED_MENGALI_AND_DANDREA_GMSK
+    type: cc
   states:
-    _io_cache: '(''EPB: File Source to Tagged Stream'', ''blk'', [(''FileName'', "''None''"),
-      (''Pkt_len'', ''52'')], [], [(''0'', ''byte'', 1)], '''', [''FileName'', ''Pkt_len''])'
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 612.0]
+    coordinate: [2040, 28.0]
     rotation: 0
-    state: disabled
-- name: fec_extended_decoder_0_1_0
-  id: fec_extended_decoder
+    state: enabled
+- name: fec_extended_tagged_decoder_2
+  id: fec_extended_tagged_decoder
   parameters:
     affinity: ''
     alias: ''
     ann: None
     comment: ''
     decoder_list: dec_rep
+    lentagname: '"packet_len"'
     maxoutbuf: '0'
     minoutbuf: '0'
+    mtu: MTU
     puncpat: puncpat
-    threadtype: none
     value: fec_extended_decoder
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2600, 92.0]
+    coordinate: [2616, 212.0]
     rotation: 0
     state: enabled
-- name: fec_extended_encoder_1_0_0
-  id: fec_extended_encoder
+- name: fec_extended_tagged_encoder_0_1
+  id: fec_extended_tagged_encoder
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     encoder_list: enc_rep
+    lentagname: '"packet_len"'
     maxoutbuf: '0'
     minoutbuf: '0'
-    puncpat: puncpat
-    threadtype: capillary
+    mtu: MTU
+    puncpat: '''11'''
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 124.0]
+    coordinate: [160, 340.0]
     rotation: 0
     state: enabled
 - name: frame_size
@@ -709,7 +647,7 @@ blocks:
     bus_structure: null
     coordinate: [1816, 44.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: puncpat
   id: parameter
   parameters:
@@ -724,7 +662,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [920, 132.0]
+    coordinate: [568, 572.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -936,12 +874,12 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    stream_id: t1
+    stream_id: r1
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 220.0]
+    coordinate: [928, 220.0]
     rotation: 0
     state: true
 - name: virtual_source_0
@@ -949,46 +887,41 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    stream_id: t1
+    stream_id: r1
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 476.0]
+    coordinate: [8, 444.0]
     rotation: 0
-    state: enabled
+    state: true
 
 connections:
-- [blocks_char_to_float_0_2_0, '0', fec_extended_decoder_0_1_0, '0']
-- [blocks_file_source_0, '0', blocks_throttle_0, '0']
-- [blocks_multiply_const_vxx_0, '0', digital_gfsk_demod_0, '0']
+- [blocks_char_to_float_1_1, '0', fec_extended_tagged_decoder_2, '0']
+- [blocks_file_source_0, '0', blocks_stream_to_tagged_stream_0, '0']
 - [blocks_multiply_const_vxx_0, '0', low_pass_filter_0, '0']
 - [blocks_multiply_const_vxx_1, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_multiply_const_vxx_1, '0', soapy_bladerf_sink_0, '0']
-- [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0_1_0, '0']
-- [blocks_repack_bits_bb_1, '0', digital_crc32_bb_0, '0']
-- [blocks_repack_bits_bb_1, '0', digital_map_bb_0_0_0_0, '0']
-- [blocks_stream_to_tagged_stream_0_0, '0', virtual_sink_0, '0']
+- [blocks_repack_bits_bb_0_0, '0', virtual_sink_0, '0']
+- [blocks_repack_bits_bb_0_0_0, '0', blocks_tagged_stream_mux_0, '1']
+- [blocks_repack_bits_bb_0_0_0, '0', digital_protocol_formatter_bb_0, '0']
+- [blocks_repack_bits_bb_1_0, '0', digital_crc32_bb_0_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0_1, '0']
 - [blocks_tagged_stream_mux_0, '0', digital_gfsk_mod_0, '0']
-- [blocks_throttle_0, '0', blocks_unpack_k_bits_bb_0, '0']
-- [blocks_unpack_k_bits_bb_0, '0', fec_extended_encoder_1_0_0, '0']
-- [digital_correlate_access_code_xx_ts_0, '0', blocks_repack_bits_bb_1, '0']
-- [digital_crc32_bb_0, '0', digital_map_bb_0_0_0_0, '0']
-- [digital_crc32_bb_0_0, '0', blocks_tagged_stream_mux_0, '1']
-- [digital_crc32_bb_0_0, '0', digital_protocol_formatter_bb_0, '0']
-- [digital_gfsk_demod_0, '0', digital_correlate_access_code_xx_ts_0, '0']
+- [digital_correlate_access_code_xx_ts_0_0, '0', digital_map_bb_0_0, '0']
+- [digital_crc32_bb_0_0, '0', blocks_file_sink_0_1_0, '0']
+- [digital_crc32_bb_0_1, '0', blocks_repack_bits_bb_0_0, '0']
+- [digital_gfsk_demod_0, '0', digital_correlate_access_code_xx_ts_0_0, '0']
 - [digital_gfsk_mod_0, '0', blocks_multiply_const_vxx_1, '0']
-- [digital_map_bb_0_0_0_0, '0', blocks_char_to_float_0_2_0, '0']
+- [digital_map_bb_0_0, '0', blocks_char_to_float_1_1, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
-- [epy_block_0_0, '0', digital_crc32_bb_0_0, '0']
-- [fec_extended_decoder_0_1_0, '0', blocks_pack_k_bits_bb_0, '0']
-- [fec_extended_encoder_1_0_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
-- [low_pass_filter_0, '0', digital_gfsk_demod_0, '0']
+- [digital_symbol_sync_xx_0, '0', digital_gfsk_demod_0, '0']
+- [fec_extended_tagged_decoder_2, '0', blocks_repack_bits_bb_1_0, '0']
+- [fec_extended_tagged_encoder_0_1, '0', blocks_repack_bits_bb_0_0_0, '0']
+- [low_pass_filter_0, '0', digital_symbol_sync_xx_0, '0']
 - [low_pass_filter_0, '0', qtgui_freq_sink_x_1, '0']
 - [soapy_bladerf_source_0, '0', blocks_multiply_const_vxx_0, '0']
-- [virtual_source_0, '0', blocks_tagged_stream_mux_0, '1']
-- [virtual_source_0, '0', digital_crc32_bb_0_0, '0']
-- [virtual_source_0, '0', digital_protocol_formatter_bb_0, '0']
+- [virtual_source_0, '0', fec_extended_tagged_encoder_0_1, '0']
 
 metadata:
   file_format: 1

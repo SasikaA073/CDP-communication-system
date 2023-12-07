@@ -79,6 +79,50 @@ blocks:
     bus_structure: null
     coordinate: [992, 732.0]
     rotation: 0
+    state: disabled
+- name: dec_cc_0
+  id: variable_cc_decoder_def
+  parameters:
+    comment: ''
+    dim1: '1'
+    dim2: '4'
+    framebits: MTU*8
+    k: k
+    mode: fec.CC_TERMINATED
+    ndim: '1'
+    padding: 'True'
+    polys: polys
+    rate: rate
+    state_end: '-1'
+    state_start: '0'
+    value: '"ok"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1344, 636.0]
+    rotation: 0
+    state: enabled
+- name: enc_cc
+  id: variable_cc_encoder_def
+  parameters:
+    comment: ''
+    dim1: '1'
+    dim2: '1'
+    framebits: MTU*8
+    k: k
+    mode: fec.CC_TERMINATED
+    ndim: '0'
+    padding: 'True'
+    polys: polys
+    rate: rate
+    state_start: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1552, 636.0]
+    rotation: 0
     state: enabled
 - name: enc_ccsds
   id: variable_ccsds_encoder_def
@@ -96,7 +140,7 @@ blocks:
     bus_structure: null
     coordinate: [1008, 596.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: hdr_format
   id: variable
   parameters:
@@ -198,6 +242,23 @@ blocks:
     coordinate: [912, 12.0]
     rotation: 0
     state: true
+- name: MTU
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: MTU
+    short_id: ''
+    type: intx
+    value: '1500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1248, 636.0]
+    rotation: 0
+    state: enabled
 - name: blocks_char_to_float_0_2_0
   id: blocks_char_to_float
   parameters:
@@ -649,7 +710,7 @@ blocks:
     alias: ''
     ann: None
     comment: ''
-    decoder_list: dec_cc
+    decoder_list: dec_cc_0
     maxoutbuf: '0'
     minoutbuf: '0'
     puncpat: puncpat
@@ -668,7 +729,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    encoder_list: enc_ccsds
+    encoder_list: enc_cc
     maxoutbuf: '0'
     minoutbuf: '0'
     puncpat: puncpat
