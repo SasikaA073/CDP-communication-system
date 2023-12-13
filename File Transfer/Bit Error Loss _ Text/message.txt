@@ -1,0 +1,119 @@
+File transfer using Packet and BPSK
+Jump to navigation
+Jump to search
+
+This is a Proof of Concept design.
+Please leave comments in the Discussion tab above, or on the GNU Radio General Chat channel. See Chat.
+
+This package consists of a packet transmitter, a channel simulation, and a packet receiver. It has been developed and tested with GNU Radio version 3.10.6.0. For Over The Air testing, a Transmit / Receive SDR module is used in place of the channel simulation.
+
+
+
+File transfer using Packet and BPSK
+Jump to navigation
+Jump to search
+
+This is a Proof of Concept design.
+Please leave comments in the Discussion tab above, or on the GNU Radio General Chat channel. See Chat.
+
+This package consists of a packet transmitter, a channel simulation, and a packet receiver. It has been developed and tested with GNU Radio version 3.10.6.0. For Over The Air testing, a Transmit / Receive SDR module is used in place of the channel simulation.
+
+Contents
+
+    1 Prerequisites
+    2 Versions
+        2.1 Version v2.X.0.0
+        2.2 Version v1.0.0.0
+    3 Download the gr-control software
+    4 Operation
+        4.1 Sending Non-text Files
+        4.2 Receiving the File
+        4.3 Simulating Channel Impairments
+        4.4 Transmitting the File
+        4.5 Shutdown
+        4.6 Stripping the Preamble and Filler
+    5 Over The Air Testing
+
+Prerequisites
+
+It is imperative that all of the prerequisites are studied before starting this one.
+
+    Example Usage of GNU Radio: PSK Modulation / Demodulation
+    Simulation_example: BPSK Demodulation
+    Packet Communications
+
+Versions
+Version v2.X.0.0
+
+Version v2.1.3.0 revised the pkt_xmt timing and restored the filename display.
+
+Version v2.1.2.0 revised the pkt_xmt timing.
+
+Version v2.1.1.0 has improvements to the pkt_rcv flowgraph.
+
+Version v2.1.0.0 transmits the input file name. The strip_preamble.py program displays the received file name.
+
+Version v2.0.0.0 encodes all input files into Base64 for transmission. The file is decoded from Base64 to the original content in the strip_preamble.py program.
+Version v1.0.0.0
+
+Version v1.0.0.0 uses an HDLC frame to prevent long strings of zero bytes. In spite of that, some binary files failed.
+Download the gr-control software
+
+1. Open a terminal window.
+2. Change to the home directory.
+
+   cd ~/  
+
+3. If you don't have 'git', enter
+
+   sudo apt install git  
+
+4. Clone the repository:
+
+   git clone https://github.com/duggabe/gr-control.git
+
+5. If you want a version other than the latest, do the following:
+
+   cd ~/gr-control
+   git checkout v2.x.x.x    # enter the desired version
+
+Operation
+
+
+* * NOTE: The order of starting the tasks is important! * *
+Sending Non-text Files
+
+Any text, binary, and other non-text files (such as PDF or PNG) can be sent. The file "~/gr-control/gr-logo.png" has been provided for testing. It is the GNU Radio logo.
+Receiving the File
+
+pkt_rcv.py receives the BPSK signal and presents it to the Correlate Access Code - Tag Stream. That block detects the Access Code and passes the payload to the Stream_CRC32 to check for a valid CRC. If the CRC is good, the data is sent to the File_Sink.
+
+Pkt rcv file fg.png
+
+1. Open a new terminal window.
+2. Go to the gr-control/Receivers folder.
+
+   cd ~/gr-control/Receivers
+
+3. Execute the packet receiver.
+
+   python3 -u pkt_rcv.py
+
+4. A new window will open (titled "pkt_rcv") showing a QT_GUI_Constellation_Sink display and two QT_GUI_Time_Sinks.
+Simulating Channel Impairments
+
+There are two flowgraphs included to allow loopback testing of a transmitter and a receiver without using SDR hardware. Either operates **in place of** the `xmt_rcv_switch` program. The `chan_loopback` is for the digital modes such as BPSK packet. It allows introduction of noise, frequency offset, and timing offset.
+
+Chan loopback fg.png
+
+1. Open another terminal window.
+2. Go to the gr-control folder.
+
+   cd ~/gr-control
+
+3. Execute the loopback program.
+
+   python3 -u chan_loopback.py
+
+4. A new window will open (titled "chan_loopback") showing a chooser for the Sample rate. For the version 3.9 and 3.10 programs, select 768kHz. There are three sliders to introduce impairments, but for initial testing, leave them all as loaded.
+Transmitting the Fil

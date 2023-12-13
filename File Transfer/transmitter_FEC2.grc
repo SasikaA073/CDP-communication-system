@@ -232,7 +232,7 @@ blocks:
     bus_structure: null
     coordinate: [2456, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_sink_0_1_0
   id: blocks_file_sink
   parameters:
@@ -250,7 +250,7 @@ blocks:
     bus_structure: null
     coordinate: [2728, 388.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -290,7 +290,7 @@ blocks:
     bus_structure: null
     coordinate: [1640, 92.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_multiply_const_vxx_1
   id: blocks_multiply_const_vxx
   parameters:
@@ -368,7 +368,7 @@ blocks:
     bus_structure: null
     coordinate: [2280, 396.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_stream_to_tagged_stream_0
   id: blocks_stream_to_tagged_stream
   parameters:
@@ -426,7 +426,7 @@ blocks:
     bus_structure: null
     coordinate: [2024, 228.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: digital_crc32_bb_0_0
   id: digital_crc32_bb
   parameters:
@@ -444,7 +444,7 @@ blocks:
     bus_structure: null
     coordinate: [2488, 388.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_crc32_bb_0_1
   id: digital_crc32_bb
   parameters:
@@ -485,7 +485,7 @@ blocks:
     bus_structure: null
     coordinate: [1800, 204.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_gfsk_mod_0
   id: digital_gfsk_mod
   parameters:
@@ -522,7 +522,7 @@ blocks:
     bus_structure: null
     coordinate: [2320, 244.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_protocol_formatter_bb_0
   id: digital_protocol_formatter_bb
   parameters:
@@ -566,7 +566,7 @@ blocks:
     bus_structure: null
     coordinate: [2040, 28.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: fec_extended_tagged_decoder_2
   id: fec_extended_tagged_decoder
   parameters:
@@ -587,7 +587,7 @@ blocks:
     bus_structure: null
     coordinate: [2616, 212.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: fec_extended_tagged_encoder_0_1
   id: fec_extended_tagged_encoder
   parameters:
@@ -647,7 +647,7 @@ blocks:
     bus_structure: null
     coordinate: [1816, 44.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: puncpat
   id: parameter
   parameters:
@@ -868,7 +868,7 @@ blocks:
     bus_structure: null
     coordinate: [1488, 228.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:

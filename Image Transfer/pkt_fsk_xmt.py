@@ -16,10 +16,9 @@ from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import analog
 import math
 from gnuradio import blocks
-from gnuradio import channels
-from gnuradio.filter import firdes
 from gnuradio import digital
 from gnuradio import filter
+from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
@@ -28,6 +27,7 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import soapy
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import pkt_fsk_xmt_epy_block_0 as epy_block_0  # embedded python block
@@ -90,26 +90,19 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.decim = decim = 1
         self.access_key = access_key = '11100001010110101110100010010011'
         self.usrp_rate = usrp_rate = 768e3
-        self.time_offset = time_offset = 1.000
         self.thresh = thresh = 1
-        self.taps = taps = [1.0 + 0.0j, ]
         self.sq_lvl = sq_lvl = -50
         self.sps = sps = (int)(repeat/decim)
         self.samp_rate_0 = samp_rate_0 = 768000
         self.reverse = reverse = (-1)
         self.phase_bw = phase_bw = math.pi/32
-        self.noise_volt = noise_volt = 0.0
         self.inp_amp = inp_amp = (mark/vco_max)-vco_offset
         self.hdr_format = hdr_format = digital.header_format_default(access_key, 0)
-        self.freq_offset = freq_offset = 0
 
         ##################################################
         # Blocks
         ##################################################
 
-        self._time_offset_range = Range(0.999, 1.001, 0.0001, 1.000, 200)
-        self._time_offset_win = RangeWidget(self._time_offset_range, self.set_time_offset, "Timing Offset", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._time_offset_win)
         self._sq_lvl_range = Range(-100, 0, 5, -50, 200)
         self._sq_lvl_win = RangeWidget(self._sq_lvl_range, self.set_sq_lvl, "Squelch", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._sq_lvl_win, 0, 1, 1, 1)
@@ -146,12 +139,32 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self._noise_volt_range = Range(0, 1, 0.01, 0.0, 200)
-        self._noise_volt_win = RangeWidget(self._noise_volt_range, self.set_noise_volt, "Noise Voltage", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._noise_volt_win)
-        self._freq_offset_range = Range(-0.1, 0.1, 0.001, 0, 200)
-        self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, "Frequency Offset", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._freq_offset_win)
+        self.soapy_bladerf_source_0 = None
+        dev = 'driver=bladerf'
+        stream_args = ''
+        tune_args = ['']
+        settings = ['']
+
+        self.soapy_bladerf_source_0 = soapy.source(dev, "fc32", 1, '',
+                                  stream_args, tune_args, settings)
+        self.soapy_bladerf_source_0.set_sample_rate(0, usrp_rate)
+        self.soapy_bladerf_source_0.set_bandwidth(0, 500e3)
+        self.soapy_bladerf_source_0.set_frequency(0, 2.46e9)
+        self.soapy_bladerf_source_0.set_frequency_correction(0, 0)
+        self.soapy_bladerf_source_0.set_gain(0, min(max(60, -1.0), 60.0))
+        self.soapy_bladerf_sink_0 = None
+        dev = 'driver=bladerf'
+        stream_args = ''
+        tune_args = ['']
+        settings = ['']
+
+        self.soapy_bladerf_sink_0 = soapy.sink(dev, "fc32", 1, '',
+                                  stream_args, tune_args, settings)
+        self.soapy_bladerf_sink_0.set_sample_rate(0, usrp_rate)
+        self.soapy_bladerf_sink_0.set_bandwidth(0, 500e3)
+        self.soapy_bladerf_sink_0.set_frequency(0, 2.46e9)
+        self.soapy_bladerf_sink_0.set_frequency_correction(0, 0)
+        self.soapy_bladerf_sink_0.set_gain(0, min(max(66, 17.0), 73.0))
         # Create the options list
         self._samp_rate_0_options = [768000, 576000]
         # Create the labels list
@@ -213,7 +226,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccf(decim, firdes.low_pass(1.0,samp_rate,3000,400), center, samp_rate)
         self.epy_block_5 = epy_block_5.dec_blk(key=1)
         self.epy_block_4 = epy_block_4.enc_blk(key=1)
-        self.epy_block_0 = epy_block_0.blk(FileName=InFile, Pkt_len=75)
+        self.epy_block_0 = epy_block_0.blk(FileName=InFile, Pkt_len=60)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_ff(
             digital.TED_EARLY_LATE,
             sps,
@@ -232,13 +245,6 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts("11100001010110101110100010010011",
           thresh, 'packet_len')
         self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
-        self.channels_channel_model_0 = channels.channel_model(
-            noise_voltage=noise_volt,
-            frequency_offset=freq_offset,
-            epsilon=time_offset,
-            taps=taps,
-            noise_seed=0,
-            block_tags=True)
         self.blocks_vco_c_0 = blocks.vco_c(samp_rate, (2*math.pi*vco_max), 1.0)
         self.blocks_uchar_to_float_0 = blocks.uchar_to_float()
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
@@ -248,7 +254,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.blocks_repack_bits_bb_1_0 = blocks.repack_bits_bb(8, 1, '', False, gr.GR_MSB_FIRST)
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(reverse)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(inp_amp)
-        self.blocks_file_sink_0_1_0 = blocks.file_sink(gr.sizeof_char*1, '/home/thisara/Documents/old-cdp-docs/Image Transfer/output.tmp', False)
+        self.blocks_file_sink_0_1_0 = blocks.file_sink(gr.sizeof_char*1, '/home/thisara/Downloads/CDP-communication-system/Image Transfer/output.tmp', False)
         self.blocks_file_sink_0_1_0.set_unbuffered(True)
         self.blocks_add_const_vxx_0 = blocks.add_const_ff(vco_offset)
         self.analog_simple_squelch_cc_0 = analog.simple_squelch_cc(sq_lvl, 1)
@@ -269,11 +275,10 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repack_bits_bb_1_0_0, 0), (self.digital_crc32_bb_0_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_uchar_to_float_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_repack_bits_bb_1_0, 0))
-        self.connect((self.blocks_throttle2_0, 0), (self.channels_channel_model_0, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.soapy_bladerf_sink_0, 0))
         self.connect((self.blocks_uchar_to_float_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_vco_c_0, 0), (self.blocks_throttle2_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
         self.connect((self.digital_binary_slicer_fb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_repack_bits_bb_1_0_0, 0))
         self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
@@ -285,6 +290,7 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.connect((self.epy_block_4, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.epy_block_5, 0), (self.blocks_file_sink_0_1_0, 0))
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.analog_simple_squelch_cc_0, 0))
+        self.connect((self.soapy_bladerf_source_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
 
 
     def closeEvent(self, event):
@@ -397,26 +403,14 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
 
     def set_usrp_rate(self, usrp_rate):
         self.usrp_rate = usrp_rate
-
-    def get_time_offset(self):
-        return self.time_offset
-
-    def set_time_offset(self, time_offset):
-        self.time_offset = time_offset
-        self.channels_channel_model_0.set_timing_offset(self.time_offset)
+        self.soapy_bladerf_sink_0.set_sample_rate(0, self.usrp_rate)
+        self.soapy_bladerf_source_0.set_sample_rate(0, self.usrp_rate)
 
     def get_thresh(self):
         return self.thresh
 
     def set_thresh(self, thresh):
         self.thresh = thresh
-
-    def get_taps(self):
-        return self.taps
-
-    def set_taps(self, taps):
-        self.taps = taps
-        self.channels_channel_model_0.set_taps(self.taps)
 
     def get_sq_lvl(self):
         return self.sq_lvl
@@ -453,13 +447,6 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
         self.phase_bw = phase_bw
         self.digital_symbol_sync_xx_0.set_loop_bandwidth(self.phase_bw)
 
-    def get_noise_volt(self):
-        return self.noise_volt
-
-    def set_noise_volt(self, noise_volt):
-        self.noise_volt = noise_volt
-        self.channels_channel_model_0.set_noise_voltage(self.noise_volt)
-
     def get_inp_amp(self):
         return self.inp_amp
 
@@ -472,13 +459,6 @@ class pkt_fsk_xmt(gr.top_block, Qt.QWidget):
 
     def set_hdr_format(self, hdr_format):
         self.hdr_format = hdr_format
-
-    def get_freq_offset(self):
-        return self.freq_offset
-
-    def set_freq_offset(self, freq_offset):
-        self.freq_offset = freq_offset
-        self.channels_channel_model_0.set_frequency_offset(self.freq_offset)
 
 
 

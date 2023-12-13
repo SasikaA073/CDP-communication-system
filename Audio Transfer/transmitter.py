@@ -11,6 +11,7 @@
 from packaging.version import Version as StrictVersion
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import filter
@@ -26,7 +27,6 @@ from gnuradio import eng_notation
 from gnuradio import soapy
 from gnuradio import vocoder
 import sip
-import transmitter_epy_block_4 as epy_block_4  # embedded python block
 
 
 
@@ -82,44 +82,44 @@ class transmitter(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.vocoder_cvsd_encode_fb_0 = vocoder.cvsd_encode_fb(1,0.5)
-        self.soapy_bladerf_sink_0 = None
+        self.vocoder_cvsd_decode_bf_0 = vocoder.cvsd_decode_bf(1,0.5)
+        self.soapy_bladerf_source_0 = None
         dev = 'driver=bladerf'
         stream_args = ''
         tune_args = ['']
         settings = ['']
 
-        self.soapy_bladerf_sink_0 = soapy.sink(dev, "fc32", 1, '',
+        self.soapy_bladerf_source_0 = soapy.source(dev, "fc32", 1, '',
                                   stream_args, tune_args, settings)
-        self.soapy_bladerf_sink_0.set_sample_rate(0, samp_rate)
-        self.soapy_bladerf_sink_0.set_bandwidth(0, 500e3)
-        self.soapy_bladerf_sink_0.set_frequency(0, trans_freq)
-        self.soapy_bladerf_sink_0.set_frequency_correction(0, 0)
-        self.soapy_bladerf_sink_0.set_gain(0, min(max(60, 17.0), 73.0))
-        self.rational_resampler_xxx_0 = filter.rational_resampler_fff(
-                interpolation=2,
-                decimation=1,
+        self.soapy_bladerf_source_0.set_sample_rate(0, samp_rate)
+        self.soapy_bladerf_source_0.set_bandwidth(0, 500e3)
+        self.soapy_bladerf_source_0.set_frequency(0, trans_freq)
+        self.soapy_bladerf_source_0.set_frequency_correction(0, 0)
+        self.soapy_bladerf_source_0.set_gain(0, min(max(60, -1.0), 60.0))
+        self.rational_resampler_xxx_1 = filter.rational_resampler_fff(
+                interpolation=1,
+                decimation=2,
                 taps=[],
                 fractional_bw=0)
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+        self.qtgui_freq_sink_x_1 = qtgui.freq_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
-            "Transmit", #name
+            "Receive", #name
             1,
             None # parent
         )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
+        self.qtgui_freq_sink_x_1.set_update_time(0.10)
+        self.qtgui_freq_sink_x_1.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_1.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_1.enable_autoscale(False)
+        self.qtgui_freq_sink_x_1.enable_grid(False)
+        self.qtgui_freq_sink_x_1.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_1.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_1.enable_control_panel(False)
+        self.qtgui_freq_sink_x_1.set_fft_window_normalized(False)
 
 
 
@@ -134,44 +134,52 @@ class transmitter(gr.top_block, Qt.QWidget):
 
         for i in range(1):
             if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_freq_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_freq_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_1.set_line_alpha(i, alphas[i])
 
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.epy_block_4 = epy_block_4.enc_blk(key=1)
-        self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr_format, "packet_len")
-        self.digital_gfsk_mod_0 = digital.gfsk_mod(
+        self._qtgui_freq_sink_x_1_win = sip.wrapinstance(self.qtgui_freq_sink_x_1.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_freq_sink_x_1_win)
+        self.low_pass_filter_0 = filter.fir_filter_ccf(
+            1,
+            firdes.low_pass(
+                1,
+                samp_rate,
+                200e3,
+                50e3,
+                window.WIN_HAMMING,
+                6.76))
+        self.digital_gfsk_demod_0 = digital.gfsk_demod(
             samples_per_symbol=2,
-            sensitivity=1.0,
-            bt=0.35,
+            sensitivity=1,
+            gain_mu=0.175,
+            mu=0.5,
+            omega_relative_limit=0.005,
+            freq_error=0.0,
             verbose=False,
-            log=False,
-            do_unpack=True)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/thisara/Documents/old-cdp-docs/Audio/audio.wav', True)
-        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
-        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 12, "packet_len")
-        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_cc(1)
+            log=False)
+        self.digital_correlate_access_code_xx_ts_0 = digital.correlate_access_code_bb_ts(access_key_0,
+          thresh, 'packet_len')
+        self.blocks_repack_bits_bb_1 = blocks.repack_bits_bb(1, 8, "packet_len", False, gr.GR_MSB_FIRST)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
+        self.audio_sink_0 = audio.sink(48000, '', True)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.soapy_bladerf_sink_0, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 1))
-        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_protocol_formatter_bb_0, 0))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.digital_gfsk_mod_0, 0))
-        self.connect((self.blocks_wavfile_source_0, 0), (self.rational_resampler_xxx_0, 0))
-        self.connect((self.digital_gfsk_mod_0, 0), (self.blocks_multiply_const_vxx_1, 0))
-        self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
-        self.connect((self.epy_block_4, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.vocoder_cvsd_encode_fb_0, 0))
-        self.connect((self.vocoder_cvsd_encode_fb_0, 0), (self.epy_block_4, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.blocks_repack_bits_bb_1, 0), (self.vocoder_cvsd_decode_bf_0, 0))
+        self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_repack_bits_bb_1, 0))
+        self.connect((self.digital_gfsk_demod_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
+        self.connect((self.low_pass_filter_0, 0), (self.digital_gfsk_demod_0, 0))
+        self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1, 0))
+        self.connect((self.rational_resampler_xxx_1, 0), (self.audio_sink_0, 0))
+        self.connect((self.soapy_bladerf_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.vocoder_cvsd_decode_bf_0, 0), (self.rational_resampler_xxx_1, 0))
 
 
     def closeEvent(self, event):
@@ -200,7 +208,7 @@ class transmitter(gr.top_block, Qt.QWidget):
 
     def set_trans_freq(self, trans_freq):
         self.trans_freq = trans_freq
-        self.soapy_bladerf_sink_0.set_frequency(0, self.trans_freq)
+        self.soapy_bladerf_source_0.set_frequency(0, self.trans_freq)
 
     def get_thresh(self):
         return self.thresh
@@ -213,8 +221,9 @@ class transmitter(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.soapy_bladerf_sink_0.set_sample_rate(0, self.samp_rate)
+        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 200e3, 50e3, window.WIN_HAMMING, 6.76))
+        self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
+        self.soapy_bladerf_source_0.set_sample_rate(0, self.samp_rate)
 
     def get_hdr_format(self):
         return self.hdr_format

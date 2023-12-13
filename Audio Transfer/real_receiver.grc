@@ -415,9 +415,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2072, 332.0]
+    coordinate: [2088, 404.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -752,6 +752,7 @@ connections:
 - [blocks_multiply_const_vxx_1, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_multiply_const_vxx_1, '0', soapy_bladerf_sink_0, '0']
 - [blocks_repack_bits_bb_1, '0', epy_block_5, '0']
+- [blocks_repack_bits_bb_1, '0', vocoder_cvsd_decode_bf_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', blocks_tagged_stream_mux_0, '1']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_protocol_formatter_bb_0, '0']
 - [blocks_tagged_stream_mux_0, '0', digital_gfsk_mod_0, '0']
