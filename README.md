@@ -18,7 +18,8 @@ A point-to-point digital wireless communication system implemented with [GNU Rad
 - Image
 - Bit Stream
 - Real-time audio
-in a point-to-point network using devices,Blade-RF.
+
+ using devices such as Blade-RF.
 
 ___
 
